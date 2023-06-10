@@ -12,87 +12,59 @@
 template<typename T>
 class UnionFind {
 public:
-    Array<NodeUF<T>*> tablePlayers;
+    Array<NodeUF<T*>> records;
+
+
     explicit UnionFind();
-    NodeUF<T>* Makeset(T* player, Team* teamPtr);
+    NodeUF<T>* Makeset(T* record);
+//    void AddRecordToStack(T* record);
 
 
-    Team* teamPurchase(Team* BuyingTeam,Team* BoughtTeam);
+    T* stackAonB(T* A,T* B);
 
-    void AddPlayerToTeam(T* player, Team* team);
 
-    T* Find(int playerId);
+    T* Find(int Id);
 //    bool exists(int playerId);
 
 //    bool teamDead(int playerId);
 
 //    permutation_t SumSpirit(T* player);
 
-    int SumGames(T* player);
-    void removeAllPlayers();
+    int SumHeight(T* record);
+    void removeAllRecords();
 
 };
 
 template<typename T>
-NodeUF<T>* UnionFind<T>::Makeset(T* player, Team* teamPtr) {
-    NodeUF<T>* tmp = tablePlayers.insert(player);
-    teamPtr->set_head_player(tmp);
+NodeUF<T>* UnionFind<T>::Makeset(T* record) {
+    NodeUF<T>* tmp = records.push_back(record);
     tmp->_size = 1;
-    tmp->_team = teamPtr;
+    tmp->_height = 0;
     return tmp;
 }
 
-template<typename T>
-void UnionFind<T>::AddPlayerToTeam(T* player, Team* team) {
-    NodeUF<T>* playerNode = tablePlayers.insert(player);
-    NodeUF<T>* headTeamNode = team->get_head_player();
-    playerNode->_father = headTeamNode;
-    headTeamNode->_size += 1;
-}
+//template<typename T>
+//void UnionFind<T>::AddRecordToStack(T* addition,) {
+//    NodeUF<T>* playerNode = records.push_back(record);
+//    NodeUF<T>* headTeamNode = team->get_head_player();
+//    playerNode->_father = headTeamNode;
+//    headTeamNode->_size += 1;
+//}
 
 template<typename T>
-Team* teamPurchase(Team* BuyingTeam,Team* BoughtTeam) {
+T* stackAonB(T* A,T* B) {
 
-    NodeUF<T>* teamHeadBuyer = BuyingTeam->get_head_player();
-    NodeUF<T>* teamHeadBought = BoughtTeam->get_head_player();
+    NodeUF<T>* teamHeadBuyer = A->get_head_player();
+    NodeUF<T>* teamHeadBought = B->get_head_player();
 
     //Making changes based on the different sizes of the two teams.
     if (teamHeadBuyer->_size >= teamHeadBought->_size)
     {
         teamHeadBought->_father = teamHeadBuyer;
         teamHeadBuyer->_size += teamHeadBought->_size;
-
-        //changes to set_spiritToUpdate if buyer is bigger or equal in size
-        //BoughtTeam->set_spiritToUpdate_right(BuyingTeam->get_tea_chronological_spirit());
-        /*
-         *Daniel: im trying
-         */
-
-        permutation_t originBoughtToUpdate = BoughtTeam->get_spiritToUpdate();
-
-        /*
-         * -------------------------------------
-         */
-        BoughtTeam->set_spiritToUpdate_left(BuyingTeam->get_tea_chronological_spirit());//Daniel: I changed to left
-        /*
-         * Daniel: we didn't think about the new players at the new big team
-         *          that how I tried to fix it:
-         */
-
-        BuyingTeam->set_tea_spirit_right((originBoughtToUpdate*BoughtTeam->get_tea_chronological_spirit()));//
-        //BuyingTeam->set_tea_spirit_right((BoughtTeam->get_tea_chronological_spirit()));//2th try
-
-
-        /*
-         * --------------------------------------------------------
-         */
-
         //changes in set_gamesPlayedToUpdate for smaller team
-        BoughtTeam->set_gamesPlayedToUpdate(-(BuyingTeam-> get_gamesPlayedToUpdate()));
-
-
-
-        return BuyingTeam;
+        B->set_gamesPlayedToUpdate(-(A-> get_gamesPlayedToUpdate()));
+        return A;
     }
     else {
 
@@ -102,51 +74,37 @@ Team* teamPurchase(Team* BuyingTeam,Team* BoughtTeam) {
         // we are changing here the team id and so it could fuck up the process of finding the team later in the trees,
 
         //changes to set_spiritToUpdate if buyer is smaller
-        BoughtTeam->set_tea_id(BuyingTeam->get_tea_id());
-        //BoughtTeam->set_spiritToUpdate_right(BuyingTeam->get_tea_chronological_spirit());
-        BoughtTeam->set_spiritToUpdate_left((BuyingTeam->get_spiritToUpdate()*BuyingTeam->get_tea_chronological_spirit()));//Daniel: I changed to left
-
-        //two chNFWS firat one is this ^ secondonew is to mKE SURWE TI UPDte xhrobologicL QHWN UNITING
-        // BuyingTeam->set_spiritToUpdate_right(BoughtTeam->get_tea_chronological_spirit().inv());
-        BuyingTeam->set_spiritToUpdate_left(BoughtTeam->get_spiritToUpdate().inv());//Daniel: It should be BUY.TOUPDATE.inv
+        B->set_tea_id(A->get_tea_id());
 
         //changes in set_gamesPlayedToUpdate for smaller team
-        BuyingTeam->set_gamesPlayedToUpdate(-BoughtTeam-> get_gamesPlayedToUpdate());
+        A->set_gamesPlayedToUpdate(-B->get_gamesPlayedToUpdate());
 
 
-        return BoughtTeam;
+        return B;
     }
 }
 
 
 template<typename T>
-T* UnionFind<T>::Find(int playerId) {
-    //check that exists in hash table
-    try{
-        tablePlayers[playerId];
-    } catch (const MissingKey& e){
-        return nullptr;
-    }
+T* UnionFind<T>::Find(int Id) {
 
-    NodeUF* tmp1 = tablePlayers[playerId];
-    NodeUF* tmp2 = tmp1;
+    NodeUF<T>* tmp1 = records[Id];
+    NodeUF<T>* tmp2 = tmp1;
 
-    T * playerPointer = tmp1->_data;
+    T * recordPointer = tmp1->_data;
 
-    permutation_t sumSpirit = permutation_t::neutral(); //tmp1->_data->get_spirit();
-    //Daniel: initial to neutral
-    int sumGames = 0 ;// = tmp1->_data->get_indv_nu_games();
+    int sumHeights = 0;
+    // = tmp1->_data->get_indv_nu_games()^^^????
 
-    if(tmp1->_team != nullptr)
+    if(tmp1->_size != 0)
     {
-        sumSpirit = (tmp1->_team->get_spiritToUpdate())*sumSpirit;
-        sumGames += tmp1->_team->get_gamesPlayedToUpdate();
+        sumHeights += tmp1->_stackHeight;
     }
+
     tmp1 = tmp1->_father ;
     while(tmp1 && tmp1->_father)
     {
-        sumSpirit = (tmp1->_team->get_spiritToUpdate())*sumSpirit;
-        sumGames += tmp1->_team->get_gamesPlayedToUpdate();
+        sumHeights += tmp1->_team->get_gamesPlayedToUpdate();
         tmp1 = tmp1->_father;
     }
 
@@ -154,26 +112,17 @@ T* UnionFind<T>::Find(int playerId) {
     {
         NodeUF<T>* next = tmp2->_father;
 
-        if(tmp2->_team == nullptr)
+        if(tmp2->_size == 0)
         {
-            //spirit
-            tmp2->_data->set_left_spirit_chronological(sumSpirit);
-
-            //games
-            tmp2->_data->set_games(sumGames);
+            tmp2->_data->set_height(sumHeights);
 
             //move node
             tmp2->_father = tmp1;
         }
         else
         {
-            //spirit
-            sumSpirit = sumSpirit*(tmp2->_team->get_spiritToUpdate().inv());
-            tmp2->_team->set_spiritToUpdate_left(sumSpirit);//maybe problem
-
-            //games
-            sumGames -= tmp2->_team->get_gamesPlayedToUpdate();
-            tmp2->_team->set_gamesPlayedToUpdate(sumGames);
+            sumHeights -= tmp2->_sumHeights();
+            tmp2->set_sumHeight(sumHeights);
 
             //move node
             tmp2->_father = tmp1;
@@ -181,7 +130,7 @@ T* UnionFind<T>::Find(int playerId) {
         tmp2 = next;
     }
 
-    return playerPointer;
+    return recordPointer;
 }
 
 //template<typename T>
@@ -226,26 +175,36 @@ T* UnionFind<T>::Find(int playerId) {
 
 
 template<typename T>
-int UnionFind<T>::SumGames(T* player) {
-    NodeUF<T>* PlayerNode = tablePlayers[player->get_player_id()];
-    int SumGames = player->get_indv_nu_games();
+int UnionFind<T>::SumHeight(T* record) {
+    NodeUF<T>* RecordNode = records[record->get_id()];
+    int SumHeight = record->get_indv_height();
 
-    if(PlayerNode->_team != nullptr)
+    if(RecordNode->_size != 0)
     {
-        SumGames += PlayerNode->_team->get_gamesPlayedToUpdate();
+        SumHeight += RecordNode->_stackHeight();
     }
-    NodeUF<T>* fatherNode = PlayerNode->_father;
+    NodeUF<T>* fatherNode = RecordNode->_father;
     while (fatherNode)
     {
-        SumGames += fatherNode->_team->get_gamesPlayedToUpdate();
+        SumHeight += fatherNode->_stackHeight;
         fatherNode = fatherNode->_father;
     }
-    return SumGames;
+    return SumHeight;
 }
 
 template<typename T>
-void UnionFind<T>::removeAllPlayers(){
-    tablePlayers.emptyDataFromTable();
+void UnionFind<T>::removeAllRecords(){
+    for (int i = 0; i < records.size(); i++)
+    {
+        delete records[i];
+        //doesnt kill the records themelves right now^
+    }
+    delete records;
+}
+
+template<typename T>
+UnionFind<T>::UnionFind() {
+
 }
 
 

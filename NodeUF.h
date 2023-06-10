@@ -15,13 +15,15 @@ class NodeUF{
 public:
     T* _data;
     int _size;
-    int _height;
+    int _indHeight;
+    int _stackHeight;
     NodeUF* _father;
 
     explicit NodeUF(T* t) :
             _data(t),
             _size (0),
-            _height(0),
+            _indHeight(0),
+            _stackHeight(0),
             _father (nullptr){}
 
     NodeUF (const NodeUF& NodeUF) = default;
