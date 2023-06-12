@@ -31,6 +31,7 @@ public:
     NodeUF& operator=(const NodeUF& other) = default;
 };
 
+
 template<typename T>
 NodeUF<T>::~NodeUF() {
     delete _data;

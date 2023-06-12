@@ -7,6 +7,8 @@
 
 #include "Array.h"
 #include "NodeUF.h"
+#include "Record.h"
+
 
 
 template<typename T>
@@ -17,18 +19,13 @@ public:
 
     explicit UnionFind();
     NodeUF<T>* Makeset(T* record);
-//    void AddRecordToStack(T* record);
 
 
     T* stackAonB(T* A,T* B);
 
 
     T* Find(int Id);
-//    bool exists(int playerId);
 
-//    bool teamDead(int playerId);
-
-//    permutation_t SumSpirit(T* player);
 
     int SumHeight(T* record);
     void removeAllRecords();
@@ -43,33 +40,31 @@ NodeUF<T>* UnionFind<T>::Makeset(T* record) {
     return tmp;
 }
 
-//template<typename T>
-//void UnionFind<T>::AddRecordToStack(T* addition,) {
-//    NodeUF<T>* playerNode = records.push_back(record);
-//    NodeUF<T>* headTeamNode = team->get_head_player();
-//    playerNode->_father = headTeamNode;
-//    headTeamNode->_size += 1;
-//}
 
 template<typename T>
-T* stackAonB(T* A,T* B) {
+T* UnionFind<T>::stackAonB(T* A,T* B) {
 
-    NodeUF<T>* teamHeadBuyer = A->get_head_player();
-    NodeUF<T>* teamHeadBought = B->get_head_player();
+    NodeUF<T>* HeadStacked = A->node();
+    while(HeadStacked->_father)
+        HeadStacked = HeadStacked->_father;
+
+    NodeUF<T>* HeadStack = B->node();
+    while(HeadStack->_father)
+        HeadStack = HeadStack->_father;
 
     //Making changes based on the different sizes of the two teams.
-    if (teamHeadBuyer->_size >= teamHeadBought->_size)
+    if (HeadStacked->_size >= HeadStack->_size)
     {
-        teamHeadBought->_father = teamHeadBuyer;
-        teamHeadBuyer->_size += teamHeadBought->_size;
-        //changes in set_gamesPlayedToUpdate for smaller team
+        HeadStack->_father = HeadStacked;
+        HeadStacked->_size += HeadStack->_size;
+        //changes in stackheight for smaller team
         B->set_gamesPlayedToUpdate(-(A-> get_gamesPlayedToUpdate()));
         return A;
     }
     else {
 
-        teamHeadBuyer->_father = teamHeadBought;
-        teamHeadBought->_size += teamHeadBuyer->_size;
+        HeadStacked->_father = HeadStack;
+        HeadStack->_size += HeadStacked->_size;
 
         // we are changing here the team id and so it could fuck up the process of finding the team later in the trees,
 
@@ -94,7 +89,7 @@ T* UnionFind<T>::Find(int Id) {
     T * recordPointer = tmp1->_data;
 
     int sumHeights = 0;
-    // = tmp1->_data->get_indv_nu_games()^^^????
+    // = tmp1->_data->get_ind_heght^^^????
 
     if(tmp1->_size != 0)
     {
@@ -104,7 +99,7 @@ T* UnionFind<T>::Find(int Id) {
     tmp1 = tmp1->_father ;
     while(tmp1 && tmp1->_father)
     {
-        sumHeights += tmp1->_team->get_gamesPlayedToUpdate();
+        sumHeights += tmp1->_stackHeight();
         tmp1 = tmp1->_father;
     }
 
@@ -133,56 +128,19 @@ T* UnionFind<T>::Find(int Id) {
     return recordPointer;
 }
 
-//template<typename T>
-//bool UnionFind<T>::exists(int playerId) {
-//    try{
-//        tablePlayers[playerId];
-//    } catch (const OutOfRange& e){
-//        return false;
-//    }
-//    return true;
-//}
 
-
-//template<typename T>
-//bool UnionFind<T>::teamDead(int playerId) {
-//    NodeUF<T>* playerNode = tablePlayers[playerId];
-//    while(playerNode->_father)
-//        playerNode = playerNode->_father;
-//    return !(playerNode->_team->get_alive());
-//}
-
-
-//template<typename T>
-//permutation_t UnionFind<T>::SumSpirit(T* player) {
-//
-//    NodeUF* node = tablePlayers[player->get_player_id()];
-//    permutation_t SumSpirit = player->get_spirit();
-//
-//    if(node->_team != nullptr)
-//    {
-//        SumSpirit = node->_team->get_spiritToUpdate()*SumSpirit;
-//    }
-//    NodeUF* fatherNode = node->_father;
-//    while (fatherNode)//Daniel: we have here the same problem as at gamesplayed
-//    {
-//        SumSpirit = fatherNode->_team->get_spiritToUpdate()*SumSpirit;
-//        fatherNode = fatherNode->_father;
-//    }
-//    //SumSpirit = node->_team->get_spiritToUpdate()*SumSpirit;
-//    return SumSpirit;
-//}
 
 
 template<typename T>
 int UnionFind<T>::SumHeight(T* record) {
-    NodeUF<T>* RecordNode = records[record->get_id()];
-    int SumHeight = record->get_indv_height();
+    NodeUF<T>* RecordNode = records[record->_id()];
+    int SumHeight = RecordNode->_indHeight();
 
     if(RecordNode->_size != 0)
     {
         SumHeight += RecordNode->_stackHeight();
     }
+
     NodeUF<T>* fatherNode = RecordNode->_father;
     while (fatherNode)
     {
