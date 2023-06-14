@@ -2,13 +2,16 @@
 #define RECORDS_COMPANY_H
 
 #include "utilesWet2.h"
-
+#include "HashTable.h"
+#include "UnionFind.h"
+#include "Customer.h"
 
 
 class RecordsCompany {
-  private:
-    // todo
-  public:
+private:
+    HashTable<Customer> _customers;
+
+public:
     RecordsCompany();
     ~RecordsCompany();
     StatusType newMonth(int *records_stocks, int number_of_records);
