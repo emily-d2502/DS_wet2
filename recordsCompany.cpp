@@ -16,6 +16,8 @@ StatusType RecordsCompany::addCostumer(int c_id, int phone) {
 
 }
 
+
+
 Output_t<int> RecordsCompany::getPhone(int c_id) {
 
 }

@@ -28,8 +28,23 @@ public:
 
     NodeUF (const NodeUF& NodeUF) = default;
     ~NodeUF();
+
+    void set_stackHeight(int height);
+
+    void set_indHeight(int height);
+
     NodeUF& operator=(const NodeUF& other) = default;
 };
+
+template<typename T>
+void NodeUF<T>::set_indHeight(int height){
+    _indHeight = height;
+}
+
+template<typename T>
+void NodeUF<T>::set_stackHeight(int height){
+    _stackHeight = height;
+}
 
 
 template<typename T>

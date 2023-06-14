@@ -67,11 +67,11 @@ void Node<T,K>::swap(Node *v, Node *u) {
     u->_data = v->_data;
     v->_data = temp_data;
 
-    ///
-    int tmp_extra = u->_extra;
-    u->_extra= v->_extra;
-    v->_extra = tmp_extra;
-    ///
+//    ///
+//    int tmp_extra = u->_extra;
+//    u->_extra= v->_extra;
+//    v->_extra = tmp_extra;
+//    ///
 
     K temp_key = u->_key;
     u->_key = v->_key;
@@ -139,6 +139,9 @@ void Node<T,K>::rr_rotation(Node *v) {
     u->_father = v->_father;
     v->_father = u;
     u->_left->_father= v;
+
+    v->_left->_extra -= u->_extra;
+    u->_right->_extra += v->_extra;
     ///
 
     swap(u,v);
@@ -161,6 +164,9 @@ void Node<T,K>::ll_rotation(Node *v) {
     u->_father = v->_father;
     v->_father = u;
     u->_right->_father= v;
+
+    v->_right->_extra -= u->_extra;
+    u->_left->_extra += v->_extra;
     ///
 
     swap(u,v);

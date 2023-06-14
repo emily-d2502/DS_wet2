@@ -21,7 +21,7 @@ public:
     NodeUF<T>* Makeset(T* record);
 
 
-    T* stackAonB(T* A,T* B);
+    T* stackBonA(T* A,T* B);
 
 
     T* Find(int Id);
@@ -42,39 +42,41 @@ NodeUF<T>* UnionFind<T>::Makeset(T* record) {
 
 
 template<typename T>
-T* UnionFind<T>::stackAonB(T* A,T* B) {
+T* UnionFind<T>::stackBonA(T* A,T* B) {
 
-    NodeUF<T>* HeadStacked = A->node();
-    while(HeadStacked->_father)
-        HeadStacked = HeadStacked->_father;
+    NodeUF<T>* HeadBase = A->node();
+    while(HeadBase->_father)
+        HeadBase = HeadBase->_father;
 
     NodeUF<T>* HeadStack = B->node();
     while(HeadStack->_father)
         HeadStack = HeadStack->_father;
 
-    //Making changes based on the different sizes of the two teams.
-    if (HeadStacked->_size >= HeadStack->_size)
+    //Making changes base on the different sizes of the two teams.
+    if (HeadBase->_size >= HeadStack->_size)
     {
-        HeadStack->_father = HeadStacked;
-        HeadStacked->_size += HeadStack->_size;
+        HeadStack->_father = HeadBase;
+        HeadBase->_size += HeadStack->_size;
+        //
+        HeadStack->_size = 0;
+        //
         //changes in stackheight for smaller team
-        B->set_gamesPlayedToUpdate(-(A-> get_gamesPlayedToUpdate()));
+//        B->set_gamesPlayedToUpdate(-(A-> get_gamesPlayedToUpdate()));
         return A;
     }
     else {
 
-        HeadStacked->_father = HeadStack;
-        HeadStack->_size += HeadStacked->_size;
+        HeadBase->_father = HeadStack;
+        HeadStack->_size += HeadBase->_size;
 
         // we are changing here the team id and so it could fuck up the process of finding the team later in the trees,
+//        HeadStack->_size = 0;
 
-        //changes to set_spiritToUpdate if buyer is smaller
         B->set_tea_id(A->get_tea_id());
 
         //changes in set_gamesPlayedToUpdate for smaller team
-        A->set_gamesPlayedToUpdate(-B->get_gamesPlayedToUpdate());
-
-
+//        A->set_gamesPlayedToUpdate(-B->get_gamesPlayedToUpdate());
+//
         return B;
     }
 }
@@ -96,7 +98,7 @@ T* UnionFind<T>::Find(int Id) {
         sumHeights += tmp1->_stackHeight;
     }
 
-    tmp1 = tmp1->_father ;
+    tmp1 = tmp1->_father;
     while(tmp1 && tmp1->_father)
     {
         sumHeights += tmp1->_stackHeight();
@@ -109,7 +111,7 @@ T* UnionFind<T>::Find(int Id) {
 
         if(tmp2->_size == 0)
         {
-            tmp2->_data->set_height(sumHeights);
+            tmp2->set_indHeight(sumHeights);
 
             //move node
             tmp2->_father = tmp1;
@@ -117,7 +119,7 @@ T* UnionFind<T>::Find(int Id) {
         else
         {
             sumHeights -= tmp2->_sumHeights();
-            tmp2->set_sumHeight(sumHeights);
+            tmp2->set_stackHeight(sumHeights);
 
             //move node
             tmp2->_father = tmp1;
