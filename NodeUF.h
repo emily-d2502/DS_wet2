@@ -5,7 +5,6 @@
 #ifndef TEAM_CPP_NODEUF_H
 #define TEAM_CPP_NODEUF_H
 
-//#include "Team.h"
 
 
 ///////////////class NodeUF////////////////
@@ -17,6 +16,7 @@ public:
     int _size;
     int _indHeight;
     int _stackHeight;
+    int _column;
     NodeUF* _father;
 
     explicit NodeUF(T* t) :
@@ -24,27 +24,13 @@ public:
             _size (0),
             _indHeight(0),
             _stackHeight(0),
+            _column(0),
             _father (nullptr){}
 
     NodeUF (const NodeUF& NodeUF) = default;
     ~NodeUF();
-
-    void set_stackHeight(int height);
-
-    void set_indHeight(int height);
-
     NodeUF& operator=(const NodeUF& other) = default;
 };
-
-template<typename T>
-void NodeUF<T>::set_indHeight(int height){
-    _indHeight = height;
-}
-
-template<typename T>
-void NodeUF<T>::set_stackHeight(int height){
-    _stackHeight = height;
-}
 
 
 template<typename T>

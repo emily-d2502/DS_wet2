@@ -1,15 +1,14 @@
-
 #include "Customer.h"
 
-Customer::Customer(int c_id, int phone):
-    _c_id(c_id),
+Customer::Customer(int id, int phone):
+    _id(id),
     _phone(phone),
     _member(false),
     _monthlyPayments(0) {}
 
 
 int Customer::id() const {
-    return _c_id;
+    return _id;
 }
 
 bool Customer::member() const {
@@ -26,9 +25,17 @@ bool Customer::listen(Record* record) {
 //    return true;
 }
 
+
+void Customer::zeroMonthlyPayments() {
+    _monthlyPayments=0;
+}
+
+
+
 void Customer::buy(Record* record) {
-//    ++_number_of_ratings;
-//    _tot_points += rating;
-//    _rating = _tot_points / _number_of_ratings;
+    if (this->member())
+    {
+        this->_monthlyPayments += 100 + record->buys()
+    }
 }
 

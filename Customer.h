@@ -1,30 +1,28 @@
-
-
-#ifndef Customer_H_
-#define Customer_H_
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
 
 #include "Record.h"
 
-
-
 class Customer {
 public:
-    Customer(int c_id, int _phone);
-    Customer()                              = default;
-    Customer(const Customer& other)            = default;
-    Customer& operator=(const Customer& other) = default;
-    ~Customer()                             = default;
+    Customer(int id, int phone);
+    Customer(const Customer& other)             = default;
+    Customer& operator=(const Customer& other)  = default;
+    ~Customer()                                 = default;
 
     int id() const;
+    int phone() const;
+    bool make_member();
     bool member() const;
     bool listen(Record* record);
     void buy(Record* record);
+    void zeroMonthlyPayments();
 
 private:
-    int _c_id;
+    int _id;
     int _phone;
     bool _member;
     int _monthlyPayments;
 };
 
-#endif
+#endif // CUSTOMER_H

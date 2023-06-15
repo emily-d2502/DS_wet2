@@ -1,7 +1,9 @@
 
 #pragma once
-#include "macros.h"
 #include <assert.h>
+#define MAX(n,m)      \
+((n) > (m) ? (n) : (m))
+
 #define GENERIC_FRIEND_CLASS(x) \
 template<typename, typename>    \
 friend class x
@@ -22,10 +24,6 @@ private:
     T* _data;
     Node *_left;
     Node *_right;
-    ///
-    Node *_father;
-    int _extra;
-    ///
 
     int _height;
     bool _memory;
@@ -47,10 +45,6 @@ Node<T,K>::Node(const K& key, T *data, bool memory):
     _data(data),
     _left(nullptr),
     _right(nullptr),
-    //
-    _father(nullptr),
-    _extra(0),
-    //
     _height(0),
     _memory(memory) {}
 
@@ -66,12 +60,6 @@ void Node<T,K>::swap(Node *v, Node *u) {
     T *temp_data = u->_data;
     u->_data = v->_data;
     v->_data = temp_data;
-
-//    ///
-//    int tmp_extra = u->_extra;
-//    u->_extra= v->_extra;
-//    v->_extra = tmp_extra;
-//    ///
 
     K temp_key = u->_key;
     u->_key = v->_key;
@@ -134,16 +122,6 @@ int Node<T,K>::height(Node *v) {
 template<typename T, typename K>
 void Node<T,K>::rr_rotation(Node *v) {
     Node *u = v->_right;
-
-    ///
-    u->_father = v->_father;
-    v->_father = u;
-    u->_left->_father= v;
-
-    v->_left->_extra -= u->_extra;
-    u->_right->_extra += v->_extra;
-    ///
-
     swap(u,v);
 
     v->_right = u->_right;
@@ -159,16 +137,6 @@ void Node<T,K>::rr_rotation(Node *v) {
 template<typename T, typename K>
 void Node<T,K>::ll_rotation(Node *v) {
     Node *u = v->_left;
-
-    ///
-    u->_father = v->_father;
-    v->_father = u;
-    u->_right->_father= v;
-
-    v->_right->_extra -= u->_extra;
-    u->_left->_extra += v->_extra;
-    ///
-
     swap(u,v);
 
     v->_left = u->_left;
