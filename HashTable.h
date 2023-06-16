@@ -13,6 +13,12 @@ public:
     void remove(int key);
     void insert(int key, T *data);
 
+    int size() const;
+    void get_all(T** output) const;
+
+    template<typename Function>
+    void apply(Function func);
+
     class KeyExists {};
     class KeyNotFound {};
 private:
@@ -105,6 +111,28 @@ void HashTable<T>::resize(int buckets) {
 template<typename T>
 int HashTable<T>::hash_function(int key) {
     return key % _buckets;
+}
+
+template<typename T>
+int HashTable<T>::size() const {
+    return _size;
+}
+
+template<typename T>
+void HashTable<T>::get_all(T** output) const {
+    int entry = 0;
+    for (int i = 0; i < _buckets; ++i) {
+        _table[i].inorder(output + entry);
+        entry += _table[i].size();
+    }
+}
+
+template<typename T>
+template<typename Function>
+void HashTable<T>::apply(Function func) {
+    for (int i = 0; i < _buckets; ++i) {
+        _table[i].apply(func);
+    }
 }
 
 template<typename T>
