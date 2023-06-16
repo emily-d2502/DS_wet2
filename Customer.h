@@ -12,9 +12,9 @@ public:
 
     int id() const;
     int phone() const;
-    bool make_member();
+    void make_member();
     bool member() const;
-    bool listen(Record* record);
+//    bool listen(Record* record);
     void buy(Record* record);
     void zeroMonthlyPayments();
     double monthlyExpanses() const;

@@ -27,14 +27,14 @@ void Record::setNode(NodeUF<Record>* UFnode) {
 }
 
 
-bool Record::listen(Record* record) {
-//    if (group.size() == 0 || (vip() && !group.vip())) {
-//        return false;
-//    }
-//    group.watch(_genre);
-//    _views += group.size();
-//    return true;
-}
+//bool Record::listen(Record* record) {
+////    if (group.size() == 0 || (vip() && !group.vip())) {
+////        return false;
+////    }
+////    group.watch(_genre);
+////    _views += group.size();
+////    return true;
+//}
 
 void Record::zeroBuys() {
     _buys = 0;

@@ -11,19 +11,28 @@ int Customer::id() const {
     return _id;
 }
 
+int Customer::phone() const {
+    return _phone;
+}
+
 bool Customer::member() const {
     return _member;
 }
 
-
-bool Customer::listen(Record* record) {
-//    if (group.size() == 0 || (vip() && !group.vip())) {
-//        return false;
-//    }
-//    group.watch(_genre);
-//    _views += group.size();
-//    return true;
+void Customer::make_member(){
+    _member = true;
 }
+
+
+
+//bool Customer::listen(Record* record) {
+////    if (group.size() == 0 || (vip() && !group.vip())) {
+////        return false;
+////    }
+////    group.watch(_genre);
+////    _views += group.size();
+////    return true;
+//}
 
 
 void Customer::zeroMonthlyPayments() {

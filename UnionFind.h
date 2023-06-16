@@ -15,7 +15,7 @@ public:
     Array<NodeUF<T>*> * records;
 
 
-    explicit UnionFind(int n);
+    UnionFind();
     ~UnionFind();
     NodeUF<T>* Makeset(T* record);
 
@@ -168,7 +168,7 @@ void UnionFind<T>::removeAllRecords(){
 }
 
 template<typename T>
-UnionFind<T>::UnionFind(int n) : records(n) {}
+UnionFind<T>::UnionFind() : records(nullptr) {}
 
 
 template<typename T>

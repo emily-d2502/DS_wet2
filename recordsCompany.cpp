@@ -1,8 +1,26 @@
 #include "recordsCompany.h"
 
-RecordsCompany::RecordsCompany() {
+//
+//streaming_database::streaming_database() :
+//        _users_id_tree(true),
+//        _groups_id_tree(true),
+//        _movies_id_tree(true),
+//        _movies_genre_trees() {
+//    for (int i = 0; i <= (int)Genre::NONE; ++i) {
+//        _most_recommended[i] = nullptr;
+//    }
+//}
+//
+//streaming_database::~streaming_database() {}
 
-}
+RecordsCompany::RecordsCompany() :
+        _customers(),
+        _records(),
+        _prizes(nullptr)
+
+{}
+
+
 
 RecordsCompany::~RecordsCompany() {
 

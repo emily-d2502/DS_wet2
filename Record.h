@@ -19,7 +19,7 @@ public:
     NodeUF<Record>* UF_Node() const;
 
     void setNode(NodeUF<Record>* UFnode);
-    bool listen(Record* record);
+//    bool listen(Record* record);
     void buy();
     void zeroBuys();
 

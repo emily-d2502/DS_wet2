@@ -4,7 +4,7 @@
 #define MAX(n,m)      \
 ((n) > (m) ? (n) : (m))
 
-#define GENERIC_FRIEND_CLASS(x) \
+#define AVL_GENERIC_FRIEND_CLASS(x) \
 template<typename, typename>    \
 friend class x
 
@@ -18,7 +18,7 @@ public:
     static void swap(Node *v, Node *u);
 
 private:
-    GENERIC_FRIEND_CLASS(AVL);
+    AVL_GENERIC_FRIEND_CLASS(AVL);
 
     K _key;
     T* _data;
