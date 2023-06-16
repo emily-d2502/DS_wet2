@@ -13,6 +13,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) 
         return StatusType::INVALID_INPUT;
     }
 
+    _customers.apply()
     // reset records order
     // reset expenses for costumers
     return StatusType::SUCCESS;

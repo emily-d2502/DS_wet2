@@ -8,7 +8,7 @@ Customer::Customer(int id, int phone):
 
 
 int Customer::id() const {
-    return _c_id;
+    return _id;
 }
 
 bool Customer::member() const {
@@ -16,18 +16,18 @@ bool Customer::member() const {
 }
 
 
-bool Customer::listen(Record* record) {
-//    if (group.size() == 0 || (vip() && !group.vip())) {
-//        return false;
-//    }
-//    group.watch(_genre);
-//    _views += group.size();
-//    return true;
-}
+//bool Customer::listen(Record* record) {
+////    if (group.size() == 0 || (vip() && !group.vip())) {
+////        return false;
+////    }
+////    group.watch(_genre);
+////    _views += group.size();
+////    return true;
+//}
 
-void Customer::buy(Record* record) {
-//    ++_number_of_ratings;
-//    _tot_points += rating;
-//    _rating = _tot_points / _number_of_ratings;
-}
+//void Customer::buy(Record* record) {
+////    ++_number_of_ratings;
+////    _tot_points += rating;
+////    _rating = _tot_points / _number_of_ratings;
+//}
 
