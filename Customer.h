@@ -17,12 +17,14 @@ public:
     bool listen(Record* record);
     void buy(Record* record);
     void zeroMonthlyPayments();
+    double monthlyExpanses() const;
 
-private:
+
+        private:
     int _id;
     int _phone;
     bool _member;
-    int _monthlyPayments;
+    double _monthlyPayments;
 };
 
 #endif // CUSTOMER_H

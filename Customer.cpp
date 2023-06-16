@@ -30,12 +30,16 @@ void Customer::zeroMonthlyPayments() {
     _monthlyPayments=0;
 }
 
+double Customer::monthlyExpanses() const {
+    return _monthlyPayments;
+}
+
 
 
 void Customer::buy(Record* record) {
     if (this->member())
     {
-        this->_monthlyPayments += 100 + record->buys()
+        this->_monthlyPayments += 100 + record->buys();
     }
 }
 

@@ -12,7 +12,7 @@
 template<typename T>
 class UnionFind {
 public:
-    Array<NodeUF<T>*>* records;
+    Array<NodeUF<T>*> * records;
 
 
     explicit UnionFind(int n);
@@ -83,7 +83,7 @@ T* UnionFind<T>::stackBonA(T* A,T* B) {
 
 template<typename T>
 T* UnionFind<T>::ReturnObject(int id){
-    return records[id]->_data;
+    return (*records)[id]->_data;
 }
 
 
@@ -159,9 +159,9 @@ template<typename T>
 void UnionFind<T>::removeAllRecords(){
     for (int i = 0; i < records->size(); i++)
     {
-        records[i]->_data->zeroBuys();
-        delete records[i]->_data;
-        delete records[i];
+        (*records)[i]->_data->zeroBuys();
+        delete (*records)[i]->_data;
+        delete (*records)[i];
         // kill the records themselves as well as UFnode
     }
     delete records;
