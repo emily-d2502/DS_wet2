@@ -1,9 +1,7 @@
-//
-// Created by Adi on 25/12/2022.
-//
 
-#ifndef TEAM_CPP_NODEUF_H
-#define TEAM_CPP_NODEUF_H
+
+#ifndef CPP_NODEUF_H
+#define CPP_NODEUF_H
 
 
 

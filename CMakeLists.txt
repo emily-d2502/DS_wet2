@@ -1,16 +1,24 @@
 cmake_minimum_required(VERSION 3.22)
-project(DS_wet2)
+project(DS_wet2local2)
 
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-add_executable(DS_wet2
+add_executable(DS_wet2local2
+        Array.h
+        Tree.h
+        Customer.cpp
+        Customer.h
+        HashTable.h
         mainWet2.cpp
-        recordsCompany.cpp
-        recordsCompany.h
+        NodeTree.h
         AVL.h
         Node.h
-        Array.h
-        macros.h
+        NodeUF.h
+        Record.cpp
+        Record.h
+        recordsCompany.cpp
+        recordsCompany.h
+        UnionFind.h
         utilesWet2.h)

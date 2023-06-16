@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: DS_wet2
+# Project: DS_wet2local2
 # Configurations: Debug
 # =============================================================================
 
@@ -39,52 +39,66 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /Users/adi/Technion/mivne$ netunim/DS_wet2/cmake-build-debug/
+cmake_ninja_workdir = /Users/adi/Technion/mivne$ netunim/DS_wet2local2/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target DS_wet2
+# Object build statements for EXECUTABLE target DS_wet2local2
 
 
 #############################################
-# Order-only phony target for DS_wet2
+# Order-only phony target for DS_wet2local2
 
-build cmake_object_order_depends_target_DS_wet2: phony || CMakeFiles/DS_wet2.dir
+build cmake_object_order_depends_target_DS_wet2local2: phony || CMakeFiles/DS_wet2local2.dir
 
-build CMakeFiles/DS_wet2.dir/mainWet2.cpp.o: CXX_COMPILER__DS_wet2_Debug /Users/adi/Technion/mivne$ netunim/DS_wet2/mainWet2.cpp || cmake_object_order_depends_target_DS_wet2
-  DEP_FILE = CMakeFiles/DS_wet2.dir/mainWet2.cpp.o.d
+build CMakeFiles/DS_wet2local2.dir/Customer.cpp.o: CXX_COMPILER__DS_wet2local2_Debug /Users/adi/Technion/mivne$ netunim/DS_wet2local2/Customer.cpp || cmake_object_order_depends_target_DS_wet2local2
+  DEP_FILE = CMakeFiles/DS_wet2local2.dir/Customer.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11.6 -std=gnu++14
-  INCLUDES = -I"/Users/adi/Technion/mivne netunim/DS_wet2/."
-  OBJECT_DIR = CMakeFiles/DS_wet2.dir
-  OBJECT_FILE_DIR = CMakeFiles/DS_wet2.dir
+  INCLUDES = -I"/Users/adi/Technion/mivne netunim/DS_wet2local2/."
+  OBJECT_DIR = CMakeFiles/DS_wet2local2.dir
+  OBJECT_FILE_DIR = CMakeFiles/DS_wet2local2.dir
 
-build CMakeFiles/DS_wet2.dir/recordsCompany.cpp.o: CXX_COMPILER__DS_wet2_Debug /Users/adi/Technion/mivne$ netunim/DS_wet2/recordsCompany.cpp || cmake_object_order_depends_target_DS_wet2
-  DEP_FILE = CMakeFiles/DS_wet2.dir/recordsCompany.cpp.o.d
+build CMakeFiles/DS_wet2local2.dir/mainWet2.cpp.o: CXX_COMPILER__DS_wet2local2_Debug /Users/adi/Technion/mivne$ netunim/DS_wet2local2/mainWet2.cpp || cmake_object_order_depends_target_DS_wet2local2
+  DEP_FILE = CMakeFiles/DS_wet2local2.dir/mainWet2.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11.6 -std=gnu++14
-  INCLUDES = -I"/Users/adi/Technion/mivne netunim/DS_wet2/."
-  OBJECT_DIR = CMakeFiles/DS_wet2.dir
-  OBJECT_FILE_DIR = CMakeFiles/DS_wet2.dir
+  INCLUDES = -I"/Users/adi/Technion/mivne netunim/DS_wet2local2/."
+  OBJECT_DIR = CMakeFiles/DS_wet2local2.dir
+  OBJECT_FILE_DIR = CMakeFiles/DS_wet2local2.dir
+
+build CMakeFiles/DS_wet2local2.dir/Record.cpp.o: CXX_COMPILER__DS_wet2local2_Debug /Users/adi/Technion/mivne$ netunim/DS_wet2local2/Record.cpp || cmake_object_order_depends_target_DS_wet2local2
+  DEP_FILE = CMakeFiles/DS_wet2local2.dir/Record.cpp.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11.6 -std=gnu++14
+  INCLUDES = -I"/Users/adi/Technion/mivne netunim/DS_wet2local2/."
+  OBJECT_DIR = CMakeFiles/DS_wet2local2.dir
+  OBJECT_FILE_DIR = CMakeFiles/DS_wet2local2.dir
+
+build CMakeFiles/DS_wet2local2.dir/recordsCompany.cpp.o: CXX_COMPILER__DS_wet2local2_Debug /Users/adi/Technion/mivne$ netunim/DS_wet2local2/recordsCompany.cpp || cmake_object_order_depends_target_DS_wet2local2
+  DEP_FILE = CMakeFiles/DS_wet2local2.dir/recordsCompany.cpp.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11.6 -std=gnu++14
+  INCLUDES = -I"/Users/adi/Technion/mivne netunim/DS_wet2local2/."
+  OBJECT_DIR = CMakeFiles/DS_wet2local2.dir
+  OBJECT_FILE_DIR = CMakeFiles/DS_wet2local2.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target DS_wet2
+# Link build statements for EXECUTABLE target DS_wet2local2
 
 
 #############################################
-# Link the executable DS_wet2
+# Link the executable DS_wet2local2
 
-build DS_wet2: CXX_EXECUTABLE_LINKER__DS_wet2_Debug CMakeFiles/DS_wet2.dir/mainWet2.cpp.o CMakeFiles/DS_wet2.dir/recordsCompany.cpp.o
+build DS_wet2local2: CXX_EXECUTABLE_LINKER__DS_wet2local2_Debug CMakeFiles/DS_wet2local2.dir/Customer.cpp.o CMakeFiles/DS_wet2local2.dir/mainWet2.cpp.o CMakeFiles/DS_wet2local2.dir/Record.cpp.o CMakeFiles/DS_wet2local2.dir/recordsCompany.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.1.sdk -mmacosx-version-min=11.6
-  OBJECT_DIR = CMakeFiles/DS_wet2.dir
+  OBJECT_DIR = CMakeFiles/DS_wet2local2.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = DS_wet2
-  TARGET_PDB = DS_wet2.dbg
+  TARGET_FILE = DS_wet2local2
+  TARGET_PDB = DS_wet2local2.dbg
 
 
 #############################################
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd "/Users/adi/Technion/mivne netunim/DS_wet2/cmake-build-debug" && "/Users/adi/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/221.5921.27/CLion.app/Contents/bin/cmake/mac/bin/cmake" -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd "/Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug" && "/Users/adi/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/221.5921.27/CLion.app/Contents/bin/cmake/mac/bin/cmake" -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -95,7 +109,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd "/Users/adi/Technion/mivne netunim/DS_wet2/cmake-build-debug" && "/Users/adi/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/221.5921.27/CLion.app/Contents/bin/cmake/mac/bin/cmake" --regenerate-during-build -S"/Users/adi/Technion/mivne netunim/DS_wet2" -B"/Users/adi/Technion/mivne netunim/DS_wet2/cmake-build-debug"
+  COMMAND = cd "/Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug" && "/Users/adi/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/221.5921.27/CLion.app/Contents/bin/cmake/mac/bin/cmake" --regenerate-during-build -S"/Users/adi/Technion/mivne netunim/DS_wet2local2" -B"/Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -111,9 +125,9 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 
 #############################################
-# Folder: /Users/adi/Technion/mivne netunim/DS_wet2/cmake-build-debug
+# Folder: /Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug
 
-build all: phony DS_wet2
+build all: phony DS_wet2local2
 
 # =============================================================================
 # Built-in targets

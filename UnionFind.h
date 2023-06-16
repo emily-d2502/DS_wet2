@@ -1,9 +1,7 @@
-//
-// Created by Adi on 24/12/2022.
-//
 
-#ifndef TEA_CPP_UNIONFIND_H
-#define TEA_CPP_UNIONFIND_H
+
+#ifndef CPP_UNIONFIND_H
+#define CPP_UNIONFIND_H
 
 #include "Array.h"
 #include "NodeUF.h"
@@ -14,7 +12,7 @@
 template<typename T>
 class UnionFind {
 public:
-    Array<NodeUF<T>*> records;
+    Array<NodeUF<T>*>* records;
 
 
     explicit UnionFind(int n);
@@ -39,7 +37,7 @@ template<typename T>
 NodeUF<T>* UnionFind<T>::Makeset(T* record) {
     NodeUF<T>* tmp = new NodeUF<T>(record);
     record->setNode(tmp);
-    records.push_back(tmp);
+    records->push_back(tmp);
     tmp->_indHeight = 0;
     tmp->_stackHeight = record->copies();
     tmp->_column = record->id();
@@ -92,7 +90,7 @@ T* UnionFind<T>::ReturnObject(int id){
 template<typename T>
 T* UnionFind<T>::Find(int Id) {
 
-    NodeUF<T>* tmp1 = records[Id];
+    NodeUF<T>* tmp1 = (*records)[Id];
     NodeUF<T>* tmp2 = tmp1;
 
 
@@ -140,7 +138,7 @@ T* UnionFind<T>::Find(int Id) {
 
 template<typename T>
 int UnionFind<T>::SumHeight(T* record) {
-    NodeUF<T>* RecordNode = records[record->id()];
+    NodeUF<T>* RecordNode = (*records)[record->id()];
     int SumHeight = RecordNode->_indHeight;
 
     if(RecordNode->_size != 0)
@@ -159,7 +157,7 @@ int UnionFind<T>::SumHeight(T* record) {
 
 template<typename T>
 void UnionFind<T>::removeAllRecords(){
-    for (int i = 0; i < records.size(); i++)
+    for (int i = 0; i < records->size(); i++)
     {
         records[i]->_data->zeroBuys();
         delete records[i]->_data;
@@ -178,4 +176,4 @@ UnionFind<T>::~UnionFind() {
     delete records;
 }
 
-#endif //TEA_CPP_UNIONFIND_H
+#endif //CPP_UNIONFIND_H
