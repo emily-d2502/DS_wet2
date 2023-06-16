@@ -2,7 +2,9 @@
 #define HASH_TABLE_H
 
 #include "AVL.h"
-#define CONTAINER AVL<int>
+#include "Customer.h"
+
+#define CONTAINER AVL<Customer,int>
 
 template<typename T>
 class HashTable {
@@ -47,6 +49,7 @@ void HashTable<T>::removeMonthlyDebts(){
     _table->inorder(tmp);
     for (int i = 0; i<_size; i++){
         tmp[i]->zeroMonthlyPayments();
+        //maybe another level for inside the trees?
     }
 }
 
