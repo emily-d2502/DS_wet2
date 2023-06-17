@@ -2,8 +2,8 @@
 
 
 RecordsCompany::RecordsCompany() :
-        _customers(),
         _records(nullptr),
+        _customers(),
         _prizes(nullptr)
 {}
 
@@ -18,23 +18,24 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) 
         return StatusType::INVALID_INPUT;
     }
 
-    if(_records)
-    {
-        delete _records;
-    }
-
     try {
+        if(_records)
+        {
+            delete _records;
+        }
+        _records = new UnionFind<Record>(number_of_records);
         for (int i = 0; i<number_of_records; i++)
         {
-            _records = new UnionFind<Record>(number_of_records);
-            Record * tmp = new Record(i);
-            _records->Makeset(tmp);
+            Record* tmp = new Record(i);
+            tmp->setCopies(records_stocks[i]);
+            tmp->setHeight(records_stocks[i]);
+            _records->MakeSet(i, tmp);
         }
+
+
     } catch (const std::exception& e) {
         return StatusType::ALLOCATION_ERROR;
     }
-
-
 
     _customers.apply(Customer::zeroMonthlyPayments);
 
@@ -112,11 +113,11 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
     }
 
     try {
-        Record* exists = _records->Find(r_id);
-        Record* record = _records->ReturnObject(r_id);
+        int exists = _records->Find(r_id);
+        Record record = _records->ReturnObject(r_id);
         Customer customer = _customers.find(c_id);
-        customer.buy(record);
-        record->buy();
+        customer.buy(&record);
+        record.buy();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     } catch (const Array<NodeUF<Record>*>::OutOfRange& e) {
@@ -162,8 +163,8 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2) {
     }
 
     try {
-        Record* B = _records->Find(r_id1);
-        Record* A = _records->Find(r_id2);
+        int B = _records->Find(r_id1);
+        int A = _records->Find(r_id2);
         if (A == B)
             return StatusType::FAILURE;
         _records->stackBonA(A,B);
@@ -179,10 +180,13 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
     }
 
     try {
-        Record* record = _records->ReturnObject(r_id);
-        *hight = _records->SumHeight(record) - record->copies();
-        Record* headStack = _records->Find(r_id);
-        *column = headStack->UF_Node()->_column;
+        int record = _records->Find(r_id);
+        Record tmp = _records->ReturnObject(r_id);
+        *hight = _records->SumHeight(r_id) - tmp.copies();
+
+        int headStack = _records->Find(r_id);
+        Record tmp2 = _records->ReturnObject(headStack);
+        *column = tmp2.getColumn();
     } catch (const Array<NodeUF<Record>*>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
     }
