@@ -65,9 +65,10 @@ NodeTree<K>::~NodeTree() {
 
 template<typename K>
 void NodeTree<K>::swap(NodeTree *v, NodeTree *u) {
-//    T *temp_data = u->_data;
-//    u->_data = v->_data;
-//    v->_data = temp_data;
+
+    double tmp = u->_extra;
+    u->_extra = v->_extra;
+    v->_extra = tmp;
 
     K temp_key = u->_key;
     u->_key = v->_key;
@@ -129,9 +130,10 @@ int NodeTree<K>::height(NodeTree *v) {
 
 template<typename K>
 void NodeTree<K>::rr_rotation(NodeTree *v) {
+    std::cerr<< "rr";
     NodeTree *u = v->_right;
 
-
+    double oldUExtra = u->_extra;
     ///
     if (v->_left){
         v->_left->_father= u;
@@ -140,17 +142,7 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
     if (u->_right){
         u->_right->_father= v;
     }
-
-
-
-    if (v->_right){
-        v->_right->_extra -= u->_extra;
-
-    }
-    if (u->_left){
-        u->_left->_extra += v->_extra;
-    }
-    ///
+    //
 
     swap(u,v);
 
@@ -159,6 +151,15 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
     u->_left = v->_left;
     v->_left = u;
 
+    //
+    v->_extra += u->_extra;
+    u->_extra = -oldUExtra;
+    if (u->_right){
+        u->_right->_extra += oldUExtra;
+    }
+    //
+
+
     u->_height = height(u);
     v->_height = height(v);
 }
@@ -166,7 +167,11 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
 
 template<typename K>
 void NodeTree<K>::ll_rotation(NodeTree *v) {
+    std::cerr<< "ll";
     NodeTree *u = v->_left;
+
+    double oldUExtra = u->_extra;
+
 
     ///
     if (u->_left){
@@ -175,16 +180,7 @@ void NodeTree<K>::ll_rotation(NodeTree *v) {
     if (v->_right){
         v->_right->_father= u;
     }
-
-    if (v->_left){
-        v->_left->_extra -= u->_extra;
-    }
-
-    if (u->_right){
-        u->_right->_extra += v->_extra;
-    }
-
-    ///
+    //
 
 
     swap(u,v);
@@ -193,6 +189,14 @@ void NodeTree<K>::ll_rotation(NodeTree *v) {
     u->_left = u->_right;
     u->_right = v->_right;
     v->_right = u;
+
+    //
+    v->_extra += u->_extra;
+    u->_extra = -oldUExtra;
+    if (u->_left){
+        u->_left->_extra += oldUExtra;
+    }
+    //
 
     u->_height = height(u);
     v->_height = height(v);

@@ -49,7 +49,7 @@ int main()
     {
       int c_id;
       cin >> c_id;
-        if (c_id == 10)
+        if (c_id == 89)
             int i = 0;
       print(op, test_obj->makeMember(c_id));
     }
@@ -64,15 +64,15 @@ int main()
     {
       int c_id, r_id;
       cin >> c_id; cin >> r_id;
-//        if (c_id == 206 || r_id == 5)
-//            int i = 0;
+        if (c_id == 89)
+            int i = 0;
       print(op, test_obj->buyRecord(c_id, r_id));
     }
     else if(!op.compare("addPrize"))
     {
       int c_id1, c_id2, amount;
       cin >> c_id1; cin >> c_id2; cin >> amount;
-//        if (amount == 87)
+//        if (amount == 48)
 //            int i = 0;
 
       print(op, test_obj->addPrize(c_id1, c_id2, amount));
@@ -81,7 +81,7 @@ int main()
     {
       int c_id;
       cin >> c_id;
-      if (c_id == 10)
+      if (c_id == 89)
           int i = 0;
 
       print(op, test_obj->getExpenses(c_id));

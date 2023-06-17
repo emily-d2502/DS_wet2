@@ -87,7 +87,7 @@ StatusType RecordsCompany::makeMember(int c_id) {
         if (customer->member()) {
             return StatusType::ALREADY_EXISTS;
         }
-        _prizes->insert(c_id);
+//        _prizes->insert(c_id);
         double debt = _prizes->prizeSum(c_id);
         customer->setMonthlyExpanses(customer->monthlyExpanses()+debt);
         customer->make_member();
@@ -134,6 +134,14 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double  amount) {
     if (c_id1 < 0 || c_id2 < c_id1 || amount <= 0) {
         return StatusType::INVALID_INPUT;
     }
+    try {
+        _prizes->insert(c_id2-1);
+    } catch (const Tree<int>::KeyExists& e){}
+
+    try {
+        _prizes->insert(c_id1-1);;
+    } catch (const Tree<int>::KeyExists& e){}
+
     _prizes->add(c_id2-1,amount);
     _prizes->add(c_id1-1,-amount);
 

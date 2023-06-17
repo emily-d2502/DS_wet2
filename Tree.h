@@ -106,7 +106,7 @@ NODE * Tree<K>::find(const K& key) {
 template<typename K>
 double Tree<K>::prizeSum(const K& key) {
     if (_root == nullptr) {
-        throw KeyNotFound();
+        return 0;
     }
 
     NODE *p = _root;
@@ -116,9 +116,13 @@ double Tree<K>::prizeSum(const K& key) {
             return sum;
         } else if (p->_key < key) {
             p = p->_right;
+            if(p == nullptr)
+                continue;
             sum += p->_extra;
         } else {
             p = p->_left;
+            if(p == nullptr)
+                continue;
             sum += p->_extra;
         }
     }
@@ -136,13 +140,13 @@ void Tree<K>::insert(const K& key) {
 template<typename K>
 void Tree<K>::add(K key, double extra) {
     if (_root == nullptr) {
-        throw KeyNotFound();
+        return;
     }
 
     NODE *p = _root;
     while(p != nullptr) {
         if (p->_key == key) {
-            if ((&p == &(p->_father->_left)) || p == this->_root)
+            if (p == this->_root || (p == (p->_father->_left)))
             {
                 p->_extra+=extra;
             }
@@ -157,17 +161,17 @@ void Tree<K>::add(K key, double extra) {
                 father->_extra+=extra;
                 continue;
             }
-            else if  (&(father) == &(father->_father->_left))
+            else if  ((father) == (father->_father->_left))
                 father->_extra+=extra;
         } else {
             NODE * father = p;
             p = p->_left;
-            if (father == this->_root)
+            if (father == this->_root || father == nullptr)
             {
                 continue;
             }
-            if (&(father) == &(father->_father->_right))
-                p->_father->_extra-=extra;
+            if ((father) == (father->_father->_right))
+                father->_extra -= extra;
         }
     }
 }
