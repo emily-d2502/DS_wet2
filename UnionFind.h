@@ -62,16 +62,20 @@ T* UnionFind<T>::stackBonA(T* A,T* B) {
     {
         HeadStack->_father = HeadBase;
         HeadBase->_size += HeadStack->_size;
+
+        HeadStack->_stackHeight += SumHeight(HeadBase->_data);
+        HeadStack->_stackHeight -= HeadBase->_stackHeight;
         return A;
     }
     else {
 
         HeadBase->_father = HeadStack;
+
         HeadStack->_size += HeadBase->_size;
 
         HeadStack->_column = HeadBase->_column;
 
-        HeadStack->_stackHeight += HeadBase->_stackHeight;
+        HeadStack->_stackHeight += SumHeight(HeadBase->_data);
         HeadBase->_stackHeight -= HeadStack->_stackHeight;
 
 
