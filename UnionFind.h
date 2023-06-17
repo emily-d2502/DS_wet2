@@ -29,6 +29,7 @@ public:
     Set Union(Set p, Set q);
 
 private:
+    int *_fullHeight;
     int *_size;
     int *_parent;
     Array<T> _objects;
@@ -36,6 +37,7 @@ private:
 
 template<class T>
 UnionFind<T>::UnionFind(int n) : _objects(Array<T>(n)) {
+    _fullHeight = new int[n];
     _size = new int[n];
     _parent = new int[n];
     for (int i = 0; i < n; ++i) {
@@ -46,12 +48,14 @@ UnionFind<T>::UnionFind(int n) : _objects(Array<T>(n)) {
 
 template<class T>
 UnionFind<T>::~UnionFind() {
+    delete[] _fullHeight;
     delete[] _size;
     delete[] _parent;
 }
 
 template<class T>
 Set UnionFind<T>::MakeSet(int member, T* object) {
+    _fullHeight[member] = object->copies();
     _size[member] = 1;
     _objects[member] = *object;
     return member;
@@ -87,6 +91,8 @@ Set UnionFind<T>::Union(Set p, Set q) {
     }
     _parent[*s] = *l;
     _size[*l] += _size[*s];
+    _fullHeight[*l] += _fullHeight[*s];
+    _fullHeight[*s] = 0;
     _size[*s] = EMPTY;
     return *l;
 }
@@ -121,19 +127,22 @@ void UnionFind<T>::removeAllobjects(){
 
 template<typename T>
 int UnionFind<T>::stackBonA(int A,int B) {
-    Union(A,B);
+
     if(_size[A] >= _size[B])
     {
-        _objects[B].setHeight(_objects[B].getHeight() + SumHeight(A));
+        _objects[B].setHeight(_objects[B].getHeight() + _fullHeight[A]);
         _objects[B].setHeight(_objects[B].getHeight() - _objects[A].getHeight());
+        Union(A,B);
         return A;
     }
     else {
         _objects[B].setColumn(_objects[A].getColumn());
-        _objects[B].setHeight(_objects[B].getHeight() + SumHeight(A));
+        _objects[B].setHeight(_objects[B].getHeight() + _fullHeight[A]);
         _objects[A].setHeight(_objects[A].getHeight() - _objects[B].getHeight());
+        Union(A,B);
         return B;
     }
+
 }
 
 #endif // UNION_FIND_H

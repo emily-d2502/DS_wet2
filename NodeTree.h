@@ -131,22 +131,25 @@ template<typename K>
 void NodeTree<K>::rr_rotation(NodeTree *v) {
     NodeTree *u = v->_right;
 
-    ///
-    u->_father = v->_father;
-    v->_father = u;
-    if (u->_left){
-        u->_left->_father= v;
-    }
 
+    ///
     if (v->_left){
-        v->_left->_extra -= u->_extra;
+        v->_left->_father= u;
     }
 
     if (u->_right){
-        u->_right->_extra += v->_extra;
+        u->_right->_father= v;
     }
 
 
+
+    if (v->_right){
+        v->_right->_extra -= u->_extra;
+
+    }
+    if (u->_left){
+        u->_left->_extra += v->_extra;
+    }
     ///
 
     swap(u,v);
@@ -166,23 +169,23 @@ void NodeTree<K>::ll_rotation(NodeTree *v) {
     NodeTree *u = v->_left;
 
     ///
-    u->_father = v->_father;
-    v->_father = u;
-    if (u->_right){
-        u->_right->_father= v;
-    }
-
-
-    if (v->_right){
-        v->_right->_extra -= u->_extra;
-
-    }
-
     if (u->_left){
-        u->_left->_extra += v->_extra;
+        u->_left->_father= v;
+    }
+    if (v->_right){
+        v->_right->_father= u;
+    }
+
+    if (v->_left){
+        v->_left->_extra -= u->_extra;
+    }
+
+    if (u->_right){
+        u->_right->_extra += v->_extra;
     }
 
     ///
+
 
     swap(u,v);
 

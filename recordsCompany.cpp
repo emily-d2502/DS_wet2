@@ -134,7 +134,7 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double  amount) {
     if (c_id1 < 0 || c_id2 < c_id1 || amount <= 0) {
         return StatusType::INVALID_INPUT;
     }
-    _prizes->add(c_id2,amount);
+    _prizes->add(c_id2-1,amount);
     _prizes->add(c_id1-1,-amount);
 
     return StatusType::SUCCESS;
