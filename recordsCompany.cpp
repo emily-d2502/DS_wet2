@@ -17,6 +17,12 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) 
     if (number_of_records < 0) {
         return StatusType::INVALID_INPUT;
     }
+
+    if(_records)
+    {
+        delete _records;
+    }
+
     try {
         for (int i = 0; i<number_of_records; i++)
         {
@@ -28,7 +34,6 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) 
         return StatusType::ALLOCATION_ERROR;
     }
 
-    _records->removeAllRecords();
 
 
     _customers.apply(Customer::zeroMonthlyPayments);
@@ -107,7 +112,7 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
     }
 
     try {
-
+        Record* exists = _records->Find(r_id);
         Record* record = _records->ReturnObject(r_id);
         Customer customer = _customers.find(c_id);
         customer.buy(record);
