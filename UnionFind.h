@@ -31,14 +31,13 @@ public:
 private:
     int *_size;
     int *_parent;
-    T* _objects;
+    Array<T> _objects;
 };
 
 template<class T>
-UnionFind<T>::UnionFind(int n) {
+UnionFind<T>::UnionFind(int n) : _objects(Array<T>(n)) {
     _size = new int[n];
     _parent = new int[n];
-    _objects = new T[n];
     for (int i = 0; i < n; ++i) {
         _size[i] = EMPTY;
         _parent[i] = EMPTY;
@@ -49,7 +48,6 @@ template<class T>
 UnionFind<T>::~UnionFind() {
     delete[] _size;
     delete[] _parent;
-    delete _objects;
 }
 
 template<class T>
@@ -113,14 +111,11 @@ T& UnionFind<T>::ReturnObject(int id){
 
 template<typename T>
 void UnionFind<T>::removeAllobjects(){
-    for (int i = 0; i < _objects->size(); i++)
+    for (int i = 0; i < _objects.size(); i++)
     {
-        (*_objects)[i]->_data->zeroBuys();
-        delete (*_objects)[i]->_data;
-        delete (*_objects)[i];
-        // kill the objects themselves as well as UFnode
+        _objects[i].zeroBuys();
     }
-    delete _objects;
+//    delete _objects;
 }
 
 

@@ -87,6 +87,11 @@ StatusType RecordsCompany::makeMember(int c_id) {
         if (customer.member()) {
             return StatusType::ALREADY_EXISTS;
         }
+        _prizes->insert(c_id);
+//        try {
+//            _prizes->insert(c_id1-1);
+//        } catch (const Tree<int>::KeyExists& e) {}
+
         customer.make_member();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
@@ -119,7 +124,7 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
         record.buy();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
-    } catch (const Array<NodeUF<Record>*>::OutOfRange& e) {
+    } catch (const Array<Record>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
     }
 
@@ -130,13 +135,6 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double  amount) {
     if (c_id1 < 0 || c_id2 < c_id1 || amount <= 0) {
         return StatusType::INVALID_INPUT;
     }
-
-    try {
-        _prizes->insert(c_id1-1);
-    } catch (const Tree<int>::KeyExists& e) {}
-    try {
-        _prizes->insert(c_id2);
-    } catch (const Tree<int>::KeyExists& e) {}
     _prizes->add(c_id2,amount);
     _prizes->add(c_id1-1,-amount);
 
@@ -150,7 +148,9 @@ Output_t<double> RecordsCompany::getExpenses(int c_id) {
 
     try {
         Customer &customer = _customers.find(c_id);
-        return customer.monthlyExpanses();
+        if (!customer.member())
+            return StatusType::DOESNT_EXISTS;
+        return customer.monthlyExpanses() + _prizes->prizeSum(c_id);
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     }
@@ -167,7 +167,7 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2) {
         if (A == B)
             return StatusType::FAILURE;
         _records->stackBonA(A,B);
-    } catch (const Array<NodeUF<Record>*>::OutOfRange& e) {
+    } catch (const Array<Record>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
     }
     return StatusType::SUCCESS;
@@ -185,7 +185,7 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
         int headStack = _records->Find(r_id);
         Record tmp2 = _records->ReturnObject(headStack);
         *column = tmp2.getColumn();
-    } catch (const Array<NodeUF<Record>*>::OutOfRange& e) {
+    } catch (const Array<Record>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
     }
     return StatusType::SUCCESS;

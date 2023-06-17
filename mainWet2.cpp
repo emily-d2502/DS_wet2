@@ -93,6 +93,8 @@ int main()
     {
       int r_id, column, hight;
       cin >> r_id;
+      if (r_id == 19)
+          int i = 0;
       StatusType res = test_obj->getPlace(r_id, &column, &hight);
       if (res != StatusType::SUCCESS)
       {

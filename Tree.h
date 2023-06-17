@@ -17,6 +17,9 @@ public:
 
     int size() const;
     NODE * find(const K& key);
+
+    double prizeSum(const K& key);
+
     void insert(const K& key);
     ///
     void add(K key, double extra);
@@ -95,6 +98,28 @@ NODE * Tree<K>::find(const K& key) {
             p = p->_right;
         } else {
             p = p->_left;
+        }
+    }
+    throw KeyNotFound();
+}
+
+template<typename K>
+double Tree<K>::prizeSum(const K& key) {
+    if (_root == nullptr) {
+        throw KeyNotFound();
+    }
+
+    NODE *p = _root;
+    double sum = _root->_extra;
+    while(p != nullptr) {
+        if (p->_key == key) {
+            return sum;
+        } else if (p->_key < key) {
+            p = p->_right;
+            sum += p->_extra;
+        } else {
+            p = p->_left;
+            sum += p->_extra;
         }
     }
     throw KeyNotFound();
