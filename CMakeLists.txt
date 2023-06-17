@@ -1,24 +1,25 @@
 cmake_minimum_required(VERSION 3.22)
-project(DS_wet2local2)
+project(DataStructures_spring2023_Wet2Test)
 
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-add_executable(DS_wet2local2
+add_executable(DataStructures_spring2023_Wet2Test
         Array.h
-        Tree.h
+        AVL.h
         Customer.cpp
         Customer.h
         HashTable.h
+        macros.h
         mainWet2.cpp
-        NodeTree.h
-        AVL.h
         Node.h
+        NodeTree.h
         NodeUF.h
         Record.cpp
         Record.h
         recordsCompany.cpp
         recordsCompany.h
+        Tree.h
         UnionFind.h
         utilesWet2.h)

@@ -11,8 +11,8 @@
 
 class RecordsCompany {
 private:
+    UnionFind<Record>* _records;
     HashTable<Customer> _customers;
-    UnionFind<Record> _records;
     Tree<int>* _prizes;
 
 public:

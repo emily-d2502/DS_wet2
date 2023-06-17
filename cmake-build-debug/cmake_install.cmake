@@ -1,4 +1,4 @@
-# Install script for directory: /Users/adi/Technion/mivne netunim/DS_wet2local2
+# Install script for directory: /Users/adi/Technion/mivne netunim/DataStructures-spring2023-Wet2Test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/adi/Technion/mivne netunim/DataStructures-spring2023-Wet2Test/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "DS_wet2local2",
+					"name" : "DataStructures_spring2023_Wet2Test",
 					"targetIndexes" : 
 					[
 						0
@@ -38,9 +38,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "DS_wet2local2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-DS_wet2local2-Debug-672973f1917f76a8f919.json",
-					"name" : "DS_wet2local2",
+					"id" : "DataStructures_spring2023_Wet2Test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-DataStructures_spring2023_Wet2Test-Debug-e40bee34786358e6eb89.json",
+					"name" : "DataStructures_spring2023_Wet2Test",
 					"projectIndex" : 0
 				}
 			]
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug",
-		"source" : "/Users/adi/Technion/mivne netunim/DS_wet2local2"
+		"build" : "/Users/adi/Technion/mivne netunim/DataStructures-spring2023-Wet2Test/cmake-build-debug",
+		"source" : "/Users/adi/Technion/mivne netunim/DataStructures-spring2023-Wet2Test"
 	},
 	"version" : 
 	{

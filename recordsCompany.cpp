@@ -3,7 +3,7 @@
 
 RecordsCompany::RecordsCompany() :
         _customers(),
-        _records(),
+        _records(nullptr),
         _prizes(nullptr)
 {}
 
@@ -20,19 +20,23 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) 
     try {
         for (int i = 0; i<number_of_records; i++)
         {
+            _records = new UnionFind<Record>(number_of_records);
             Record * tmp = new Record(i);
-            _records.Makeset(tmp);
+            _records->Makeset(tmp);
         }
     } catch (const std::exception& e) {
         return StatusType::ALLOCATION_ERROR;
     }
 
-    _records.removeAllRecords();
+    _records->removeAllRecords();
 
 
     _customers.apply(Customer::zeroMonthlyPayments);
 
-    delete _prizes;
+    if(_prizes)
+    {
+        delete _prizes;
+    }
     _prizes = new Tree<int>;
 
     return StatusType::SUCCESS;
@@ -104,7 +108,7 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
 
     try {
 
-        Record* record = _records.ReturnObject(r_id);
+        Record* record = _records->ReturnObject(r_id);
         Customer customer = _customers.find(c_id);
         customer.buy(record);
         record->buy();
@@ -153,11 +157,11 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2) {
     }
 
     try {
-        Record* B = _records.Find(r_id1);
-        Record* A = _records.Find(r_id2);
+        Record* B = _records->Find(r_id1);
+        Record* A = _records->Find(r_id2);
         if (A == B)
             return StatusType::FAILURE;
-        _records.stackBonA(A,B);
+        _records->stackBonA(A,B);
     } catch (const Array<NodeUF<Record>*>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
     }
@@ -170,9 +174,9 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
     }
 
     try {
-        Record* record = _records.ReturnObject(r_id);
-        *hight = _records.SumHeight(record) - record->copies();
-        Record* headStack = _records.Find(r_id);
+        Record* record = _records->ReturnObject(r_id);
+        *hight = _records->SumHeight(record) - record->copies();
+        Record* headStack = _records->Find(r_id);
         *column = headStack->UF_Node()->_column;
     } catch (const Array<NodeUF<Record>*>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
