@@ -70,6 +70,8 @@ int main()
     {
       int c_id1, c_id2, amount;
       cin >> c_id1; cin >> c_id2; cin >> amount;
+//        if (amount == 87)
+//            int i = 0;
 
       print(op, test_obj->addPrize(c_id1, c_id2, amount));
     }

@@ -84,7 +84,7 @@ StatusType RecordsCompany::makeMember(int c_id) {
 
     try {
         Customer &customer = _customers.find(c_id);
-        if (!customer.member()) {
+        if (customer.member()) {
             return StatusType::ALREADY_EXISTS;
         }
         customer.make_member();
@@ -113,7 +113,6 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
     }
 
     try {
-        int exists = _records->Find(r_id);
         Record record = _records->ReturnObject(r_id);
         Customer customer = _customers.find(c_id);
         customer.buy(&record);
@@ -180,7 +179,6 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
     }
 
     try {
-        int record = _records->Find(r_id);
         Record tmp = _records->ReturnObject(r_id);
         *hight = _records->SumHeight(r_id) - tmp.copies();
 

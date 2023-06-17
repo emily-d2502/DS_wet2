@@ -123,7 +123,7 @@ void Tree<K>::add(K key, double extra) {
             }
             if (p->_right != nullptr)
                 p->_right->_extra -= extra;
-
+            return;
         } else if (p->_key < key) {
             p = p->_right;
             if (p->_father == this->_root)

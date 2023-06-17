@@ -134,10 +134,19 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
     ///
     u->_father = v->_father;
     v->_father = u;
-    u->_left->_father= v;
+    if (u->_left){
+        u->_left->_father= v;
+    }
 
-    v->_left->_extra -= u->_extra;
-    u->_right->_extra += v->_extra;
+    if (v->_left){
+        v->_left->_extra -= u->_extra;
+    }
+
+    if (u->_right){
+        u->_right->_extra += v->_extra;
+    }
+
+
     ///
 
     swap(u,v);
@@ -159,10 +168,20 @@ void NodeTree<K>::ll_rotation(NodeTree *v) {
     ///
     u->_father = v->_father;
     v->_father = u;
-    u->_right->_father= v;
+    if (u->_right){
+        u->_right->_father= v;
+    }
 
-    v->_right->_extra -= u->_extra;
-    u->_left->_extra += v->_extra;
+
+    if (v->_right){
+        v->_right->_extra -= u->_extra;
+
+    }
+
+    if (u->_left){
+        u->_left->_extra += v->_extra;
+    }
+
     ///
 
     swap(u,v);
