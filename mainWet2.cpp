@@ -81,7 +81,7 @@ int main()
     {
       int c_id;
       cin >> c_id;
-//      if (c_id == 206)
+//      if (c_id == 72)
 //          int i = 0;
 
       print(op, test_obj->getExpenses(c_id));

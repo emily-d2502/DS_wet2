@@ -88,9 +88,8 @@ StatusType RecordsCompany::makeMember(int c_id) {
             return StatusType::ALREADY_EXISTS;
         }
         _prizes->insert(c_id);
-        double subtract = _prizes->prizeSum(c_id);
-        customer->setMonthlyExpanses(customer->monthlyExpanses()-subtract);
-        //////////WE MUST MAKE SURE THE EXTRA PAREMETER IS 0 FOR THIS INSERETD DUDE!!
+        double debt = _prizes->prizeSum(c_id);
+        customer->setMonthlyExpanses(customer->monthlyExpanses()+debt);
         customer->make_member();
 //        int i = 0;
     } catch (const HashTable<Customer>::KeyNotFound& e) {

@@ -122,7 +122,7 @@ double Tree<K>::prizeSum(const K& key) {
             sum += p->_extra;
         }
     }
-    throw KeyNotFound();
+    return sum;
 }
 
 template< typename K>
