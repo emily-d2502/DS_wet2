@@ -12,16 +12,22 @@ public:
 
     int id() const;
     int phone() const;
-    bool make_member();
+    void make_member();
     bool member() const;
-    bool listen(Record* record);
+//    bool listen(Record* record);
     void buy(Record* record);
+    static void zeroMonthlyPayments(Customer& c);
+    void zeroExpanses();
+    double monthlyExpanses() ;
+
+
+
 
 private:
     int _id;
     int _phone;
     bool _member;
-    int _monthlyPayments;
+    double _monthlyPayments;
 };
 
 #endif // CUSTOMER_H

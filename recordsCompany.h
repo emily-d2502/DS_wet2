@@ -5,11 +5,15 @@
 #include "HashTable.h"
 #include "UnionFind.h"
 #include "Customer.h"
+#include "Tree.h"
+
 
 
 class RecordsCompany {
 private:
     HashTable<Customer> _customers;
+    UnionFind<Record> _records;
+    Tree<int>* _prizes;
 
 public:
     RecordsCompany();

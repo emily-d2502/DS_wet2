@@ -11,9 +11,18 @@ int Customer::id() const {
     return _id;
 }
 
+int Customer::phone() const {
+    return _phone;
+}
+
 bool Customer::member() const {
     return _member;
 }
+
+void Customer::make_member(){
+    _member = true;
+}
+
 
 
 //bool Customer::listen(Record* record) {
@@ -25,9 +34,25 @@ bool Customer::member() const {
 ////    return true;
 //}
 
-//void Customer::buy(Record* record) {
-////    ++_number_of_ratings;
-////    _tot_points += rating;
-////    _rating = _tot_points / _number_of_ratings;
-//}
+
+ void Customer::zeroMonthlyPayments(Customer& c) {
+    c.zeroExpanses();
+}
+
+void Customer::zeroExpanses(){
+    _monthlyPayments = 0;
+}
+
+double Customer::monthlyExpanses() {
+    return _monthlyPayments;
+}
+
+
+
+void Customer::buy(Record* record) {
+    if (this->member())
+    {
+        this->_monthlyPayments += 100 + record->buys();
+    }
+}
 

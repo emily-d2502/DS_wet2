@@ -2,7 +2,9 @@
 #define HASH_TABLE_H
 
 #include "AVL.h"
-#define CONTAINER AVL<T, int>
+#include "Customer.h"
+
+#define CONTAINER AVL<Customer,int>
 
 template<typename T>
 class HashTable {
@@ -12,13 +14,10 @@ public:
     T& find(int key);
     void remove(int key);
     void insert(int key, T *data);
-
-    int size() const;
-    void get_all(T** output) const;
+    void removeMonthlyDebts();
 
     template<typename Function>
     void apply(Function func);
-
     class KeyExists {};
     class KeyNotFound {};
 private:
@@ -46,6 +45,18 @@ HashTable<T>::~HashTable() {
         delete[] _table;
     }
 }
+
+template<typename T>
+void HashTable<T>::removeMonthlyDebts(){
+    T ** tmp = new T*[_size];
+    _table->inorder(tmp);
+    for (int i = 0; i<_size; i++){
+        tmp[i]->inorder();
+        //maybe another level for inside the trees?
+    }
+}
+
+
 
 template<typename T>
 void HashTable<T>::insert(int key, T *data) {
@@ -114,17 +125,13 @@ int HashTable<T>::hash_function(int key) {
 }
 
 template<typename T>
-int HashTable<T>::size() const {
-    return _size;
-}
-
-template<typename T>
-void HashTable<T>::get_all(T** output) const {
-    int entry = 0;
-    for (int i = 0; i < _buckets; ++i) {
-        _table[i].inorder(output + entry);
-        entry += _table[i].size();
+std::ostream& operator<<(std::ostream& os, const HashTable<T>& h) {
+    for (int i = 0; i < h._buckets; ++i) {
+        os << "[" << i << "]" << std::endl;
+        h._table[i].print();
+        os << std::endl;
     }
+    return os;
 }
 
 template<typename T>
@@ -133,16 +140,6 @@ void HashTable<T>::apply(Function func) {
     for (int i = 0; i < _buckets; ++i) {
         _table[i].apply(func);
     }
-}
-
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const HashTable<T>& h) {
-    for (int i = 0; i < h._buckets; ++i) {
-        os << "[" << i << "]" << std::endl;
-        h._table[i].print();
-        os << std::endl;
-    }
-    return os;
 }
 
 #endif // HASH_TABLE_H

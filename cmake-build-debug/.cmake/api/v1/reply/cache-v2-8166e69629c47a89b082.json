@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local/cmake-build-debug"
+			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -515,7 +515,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local"
+			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local2"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -795,7 +795,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "DS_wet2local"
+			"value" : "DS_wet2local2"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1078,7 +1078,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "DS_wet2local_BINARY_DIR",
+			"name" : "DS_wet2local2_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1087,10 +1087,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local/cmake-build-debug"
+			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local2/cmake-build-debug"
 		},
 		{
-			"name" : "DS_wet2local_IS_TOP_LEVEL",
+			"name" : "DS_wet2local2_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1102,7 +1102,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "DS_wet2local_SOURCE_DIR",
+			"name" : "DS_wet2local2_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1111,7 +1111,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local"
+			"value" : "/Users/adi/Technion/mivne netunim/DS_wet2local2"
 		}
 	],
 	"kind" : "cache",

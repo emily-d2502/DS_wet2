@@ -10,7 +10,7 @@ private:
     int _size;
 
 public:
-    Array(int n);
+    explicit Array(int n);
     ~Array();
     Array(const Array& arr);
     Array& operator=(const Array& arr);

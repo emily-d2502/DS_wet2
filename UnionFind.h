@@ -1,9 +1,7 @@
-//
-// Created by Adi on 24/12/2022.
-//
 
-#ifndef TEA_CPP_UNIONFIND_H
-#define TEA_CPP_UNIONFIND_H
+
+#ifndef CPP_UNIONFIND_H
+#define CPP_UNIONFIND_H
 
 #include "Array.h"
 #include "NodeUF.h"
@@ -14,14 +12,16 @@
 template<typename T>
 class UnionFind {
 public:
-    Array<NodeUF<T*>> records;
+    Array<NodeUF<T>*> * records;
 
 
-    explicit UnionFind();
+    UnionFind();
+    ~UnionFind();
     NodeUF<T>* Makeset(T* record);
 
+    T* ReturnObject(int id);
 
-    T* stackAonB(T* A,T* B);
+    T* stackBonA(T* A,T* B);
 
 
     T* Find(int Id);
@@ -32,47 +32,48 @@ public:
 
 };
 
+
 template<typename T>
 NodeUF<T>* UnionFind<T>::Makeset(T* record) {
-    NodeUF<T>* tmp = records.push_back(record);
-    tmp->_size = 1;
-    tmp->_height = 0;
+    NodeUF<T>* tmp = new NodeUF<T>(record);
+    record->setNode(tmp);
+    records->push_back(tmp);
+//    tmp->_indHeight = 0;
+    tmp->_stackHeight = record->copies();
+    tmp->_column = record->id();
     return tmp;
 }
 
 
+
 template<typename T>
-T* UnionFind<T>::stackAonB(T* A,T* B) {
+T* UnionFind<T>::stackBonA(T* A,T* B) {
 
-    NodeUF<T>* HeadStacked = A->node();
-    while(HeadStacked->_father)
-        HeadStacked = HeadStacked->_father;
+    NodeUF<T>* HeadBase = A->UF_Node();
+    while(HeadBase->_father)
+        HeadBase = HeadBase->_father;
 
-    NodeUF<T>* HeadStack = B->node();
+    NodeUF<T>* HeadStack = B->UF_Node();
     while(HeadStack->_father)
         HeadStack = HeadStack->_father;
 
     //Making changes based on the different sizes of the two teams.
-    if (HeadStacked->_size >= HeadStack->_size)
+    if (HeadBase->_size >= HeadStack->_size)
     {
-        HeadStack->_father = HeadStacked;
-        HeadStacked->_size += HeadStack->_size;
-        //changes in stackheight for smaller team
-        B->set_gamesPlayedToUpdate(-(A-> get_gamesPlayedToUpdate()));
+        HeadStack->_father = HeadBase;
+        HeadBase->_size += HeadStack->_size;
         return A;
     }
     else {
 
-        HeadStacked->_father = HeadStack;
-        HeadStack->_size += HeadStacked->_size;
+        HeadBase->_father = HeadStack;
+        HeadStack->_size += HeadBase->_size;
 
-        // we are changing here the team id and so it could fuck up the process of finding the team later in the trees,
+        HeadStack->_column = HeadBase->_column;
 
-        //changes to set_spiritToUpdate if buyer is smaller
-        B->set_tea_id(A->get_tea_id());
+        HeadStack->_stackHeight += HeadBase->_stackHeight;
+        HeadBase->_stackHeight -= HeadStack->_stackHeight;
 
-        //changes in set_gamesPlayedToUpdate for smaller team
-        A->set_gamesPlayedToUpdate(-B->get_gamesPlayedToUpdate());
 
 
         return B;
@@ -81,65 +82,112 @@ T* UnionFind<T>::stackAonB(T* A,T* B) {
 
 
 template<typename T>
+T* UnionFind<T>::ReturnObject(int id){
+    return (*records)[id]->_data;
+}
+
+
+//template<typename T>
+//T* UnionFind<T>::Find(int Id) {
+//
+//    NodeUF<T>* tmp1 = (*records)[Id];
+//    NodeUF<T>* tmp2 = tmp1;
+//
+//
+//    int sumHeights = 0;
+//    // = tmp1->_data->get_ind_heght^^^????
+//
+//    if(tmp1->_size != 0)
+//    {
+//        sumHeights += tmp1->_stackHeight;
+//    }
+//
+//    tmp1 = tmp1->_father;
+//    while(tmp1 && tmp1->_father)
+//    {
+//        sumHeights += tmp1->_stackHeight;
+//        tmp1 = tmp1->_father;
+//    }
+//
+//    while(tmp2->_father)
+//    {
+//        NodeUF<T>* next = tmp2->_father;
+//
+//        if(tmp2->_size == 0)
+//        {
+//            tmp2->_indHeight = sumHeights;
+//
+//            //move node
+//            tmp2->_father = tmp1;
+//        }
+//        else
+//        {
+//            sumHeights -= tmp2->_stackHeight;
+//            tmp2->_stackHeight = sumHeights;
+//
+//            //move node
+//            tmp2->_father = tmp1;
+//        }
+//        tmp2 = next;
+//    }
+//    return tmp2->_data;
+//}
+
+template<typename T>
 T* UnionFind<T>::Find(int Id) {
 
-    NodeUF<T>* tmp1 = records[Id];
+    NodeUF<T>* tmp1 = (*records)[Id];
     NodeUF<T>* tmp2 = tmp1;
 
-    T * recordPointer = tmp1->_data;
 
-    int sumHeights = 0;
-    // = tmp1->_data->get_ind_heght^^^????
+    int sumHeights = tmp1->_stackHeight;
 
-    if(tmp1->_size != 0)
-    {
-        sumHeights += tmp1->_stackHeight;
-    }
 
-    tmp1 = tmp1->_father ;
+    tmp1 = tmp1->_father;
     while(tmp1 && tmp1->_father)
     {
-        sumHeights += tmp1->_stackHeight();
+        sumHeights += tmp1->_stackHeight;
         tmp1 = tmp1->_father;
     }
 
     while(tmp2->_father)
     {
         NodeUF<T>* next = tmp2->_father;
-
-        if(tmp2->_size == 0)
-        {
-            tmp2->_data->set_height(sumHeights);
-
-            //move node
-            tmp2->_father = tmp1;
-        }
-        else
-        {
-            sumHeights -= tmp2->_sumHeights();
-            tmp2->set_sumHeight(sumHeights);
-
-            //move node
-            tmp2->_father = tmp1;
-        }
+        tmp2->_stackHeight = sumHeights;
+        sumHeights -= tmp2->_stackHeight;
+        //move node
+        tmp2->_father = tmp1;
         tmp2 = next;
     }
-
-    return recordPointer;
+    return tmp2->_data;
 }
 
 
 
+//template<typename T>
+//int UnionFind<T>::SumHeight(T* record) {
+//    NodeUF<T>* RecordNode = (*records)[record->id()];
+//    int SumHeight = RecordNode->_indHeight;
+//
+//    if(RecordNode->_size != 0)
+//    {
+//        SumHeight += RecordNode->_stackHeight;
+//    }
+//
+//    NodeUF<T>* fatherNode = RecordNode->_father;
+//    while (fatherNode)
+//    {
+//        SumHeight += fatherNode->_stackHeight;
+//        fatherNode = fatherNode->_father;
+//    }
+//    return SumHeight;
+//}
 
 template<typename T>
 int UnionFind<T>::SumHeight(T* record) {
-    NodeUF<T>* RecordNode = records[record->_id()];
-    int SumHeight = RecordNode->_indHeight();
+    NodeUF<T>* RecordNode = (*records)[record->id()];
 
-    if(RecordNode->_size != 0)
-    {
-        SumHeight += RecordNode->_stackHeight();
-    }
+    int SumHeight = RecordNode->_stackHeight;
 
     NodeUF<T>* fatherNode = RecordNode->_father;
     while (fatherNode)
@@ -152,18 +200,23 @@ int UnionFind<T>::SumHeight(T* record) {
 
 template<typename T>
 void UnionFind<T>::removeAllRecords(){
-    for (int i = 0; i < records.size(); i++)
+    for (int i = 0; i < records->size(); i++)
     {
-        delete records[i];
-        //doesnt kill the records themelves right now^
+        (*records)[i]->_data->zeroBuys();
+        delete (*records)[i]->_data;
+        delete (*records)[i];
+        // kill the records themselves as well as UFnode
     }
     delete records;
 }
 
 template<typename T>
-UnionFind<T>::UnionFind() {
+UnionFind<T>::UnionFind() : records(nullptr) {}
 
+
+template<typename T>
+UnionFind<T>::~UnionFind() {
+    delete records;
 }
 
-
-#endif //TEA_CPP_UNIONFIND_H
+#endif //CPP_UNIONFIND_H

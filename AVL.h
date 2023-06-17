@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Node.h"
 #include "Array.h"
-#define NODE Node<T,K>
+#define NODEAVL Node<T,K>
 
 template<typename T, typename K = T>
 class AVL {
@@ -32,21 +32,21 @@ public:
 
 private:
     int _size;
-    NODE *_root;
+    NODEAVL *_root;
     bool _memory;
 
-    void rotations(NODE *v);
-    NODE *closest_up(NODE *v);
-    NODE *closest_down(NODE *v);
-    NODE *insert(NODE *root, NODE *v);
-    NODE *remove(NODE *root, const K& key);
-    void inorder(NODE *p, Array<K>& arr) const;
-    void inorder(NODE *p, Array<T*>& arr) const;
-    void delete_tree(NODE *root);
-    void print(const std::string& prefix, NODE *root, bool left) const;
+    void rotations(NODEAVL *v);
+    NODEAVL *closest_up(NODEAVL *v);
+    NODEAVL *closest_down(NODEAVL *v);
+    NODEAVL *insert(NODEAVL *root, NODEAVL *v);
+    NODEAVL *remove(NODEAVL *root, const K& key);
+    void inorder(NODEAVL *p, Array<K>& arr) const;
+    void inorder(NODEAVL *p, Array<T*>& arr) const;
+    void delete_tree(NODEAVL *root);
+    void print(const std::string& prefix, NODEAVL *root, bool left) const;
 
     template<typename Function>
-    void apply(NODE *root, Function func);
+    void apply(NODEAVL *root, Function func);
 };
 
 template<typename T, typename K>
@@ -87,7 +87,7 @@ T& AVL<T,K>::find(const K& key) {
         throw KeyNotFound();
     }
 
-    NODE *p = _root;
+    NODEAVL *p = _root;
     while(p != nullptr) {
         if (p->_key == key) {
             return *p->_data;
@@ -102,7 +102,7 @@ T& AVL<T,K>::find(const K& key) {
 
 template<typename T, typename K>
 void AVL<T,K>::insert(const K& key, T *data) {
-    NODE *v = new NODE(key, data, _memory);
+    NODEAVL *v = new NODEAVL(key, data, _memory);
     _root = insert(_root, v);
     ++_size;
 }
@@ -114,7 +114,7 @@ void AVL<T,K>::remove(const K& key) {
 }
 
 template<typename T, typename K>
-NODE *AVL<T,K>::insert(NODE *root, NODE *v) {
+NODEAVL *AVL<T,K>::insert(NODEAVL *root, NODEAVL *v) {
     if (!root) {
         return v;
     }
@@ -125,13 +125,13 @@ NODE *AVL<T,K>::insert(NODE *root, NODE *v) {
     } else {
         throw KeyExists();
     }
-    root->_height = NODE::height(root); // O(1)
+    root->_height = NODEAVL::height(root); // O(1)
     rotations(root); // O(1)
     return root;
 }
 
 template<typename T, typename K>
-NODE *AVL<T,K>::remove(NODE *root, const K& key) {
+NODEAVL *AVL<T,K>::remove(NODEAVL *root, const K& key) {
     if (!root) {
         throw KeyNotFound();
     }
@@ -145,15 +145,15 @@ NODE *AVL<T,K>::remove(NODE *root, const K& key) {
             return nullptr;
         }
         if (root->children() == 1) {
-            NODE *tmp = root->only_child();
+            NODEAVL *tmp = root->only_child();
             delete root;
             return tmp;
         }
-        NODE *new_root = closest_up(root);
-        NODE::swap(new_root, root);
+        NODEAVL *new_root = closest_up(root);
+        NODEAVL::swap(new_root, root);
         root->_right = remove(root->_right, key);
     }
-    root->_height = NODE::height(root); // O(1)
+    root->_height = NODEAVL::height(root); // O(1)
     rotations(root); // O(1)
     return root;
 }
@@ -197,26 +197,26 @@ void AVL<T, K>::inorder(Node<T,K> *r, Array<T*>& arr) const {
 
 
 template<typename T, typename K>
-void AVL<T,K>::rotations(NODE *v) {
-    if (NODE::BF(v) == 2) {
-        if (NODE::BF(v->_left) == -1) {
-            NODE::lr_rotation(v);
+void AVL<T,K>::rotations(NODEAVL *v) {
+    if (NODEAVL::BF(v) == 2) {
+        if (NODEAVL::BF(v->_left) == -1) {
+            NODEAVL::lr_rotation(v);
         } else {
-            NODE::ll_rotation(v);
+            NODEAVL::ll_rotation(v);
         }
-    } else if (NODE::BF(v) == -2) {
-        if (NODE::BF(v->_right) == 1) {
-            NODE::rl_rotation(v);
+    } else if (NODEAVL::BF(v) == -2) {
+        if (NODEAVL::BF(v->_right) == 1) {
+            NODEAVL::rl_rotation(v);
         } else {
-            NODE::rr_rotation(v);
+            NODEAVL::rr_rotation(v);
         }
     }
 }
 
 template<typename T, typename K>
-NODE *AVL<T,K>::closest_up(NODE *v) {
+NODEAVL *AVL<T,K>::closest_up(NODEAVL *v) {
     assert(v->_right);
-    NODE *res = v->_right;
+    NODEAVL *res = v->_right;
     while (res->_left) {
         res = res->_left;
     }
@@ -224,9 +224,9 @@ NODE *AVL<T,K>::closest_up(NODE *v) {
 }
 
 template<typename T, typename K>
-NODE *AVL<T,K>::closest_down(NODE *v) {
+NODEAVL *AVL<T,K>::closest_down(NODEAVL *v) {
     assert(v->_left);
-    NODE *res = v->_left;
+    NODEAVL *res = v->_left;
     while (res->_right) {
         res = res->_right;
     }
@@ -235,7 +235,7 @@ NODE *AVL<T,K>::closest_down(NODE *v) {
 
 template<typename T, typename K>
 T* AVL<T,K>::max() const {
-    NODE* tmp = this->_root;
+    NODEAVL* tmp = this->_root;
     if(this->_root == nullptr)
         return nullptr;
     while(tmp->_right) {
@@ -245,7 +245,7 @@ T* AVL<T,K>::max() const {
 }
 
 template<typename T, typename K>
-void AVL<T,K>::delete_tree(NODE *root) {
+void AVL<T,K>::delete_tree(NODEAVL *root) {
     if (!root) {
         return;
     }
@@ -262,7 +262,7 @@ void AVL<T,K>::apply(Function func) {
 
 template<typename T, typename K>
 template<typename Function>
-void AVL<T,K>::apply(NODE *root, Function func) {
+void AVL<T,K>::apply(NODEAVL *root, Function func) {
     if (!root) {
         return;
     }
@@ -272,7 +272,7 @@ void AVL<T,K>::apply(NODE *root, Function func) {
 }
 
 template<typename T, typename K>
-void AVL<T,K>::print(const std::string& prefix, NODE *root, bool left) const {
+void AVL<T,K>::print(const std::string& prefix, NODEAVL *root, bool left) const {
     if (!root) {
         return;
     }
