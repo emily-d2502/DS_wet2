@@ -70,8 +70,8 @@ Output_t<int> RecordsCompany::getPhone(int c_id) {
     }
 
     try {
-        Customer &customer = _customers.find(c_id);
-        return customer.phone();
+        Customer * customer = _customers.find(c_id);
+        return customer->phone();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     }
@@ -83,16 +83,16 @@ StatusType RecordsCompany::makeMember(int c_id) {
     }
 
     try {
-        Customer &customer = _customers.find(c_id);
-        if (customer.member()) {
+        Customer * customer = _customers.find(c_id);
+        if (customer->member()) {
             return StatusType::ALREADY_EXISTS;
         }
         _prizes->insert(c_id);
-//        try {
-//            _prizes->insert(c_id1-1);
-//        } catch (const Tree<int>::KeyExists& e) {}
-
-        customer.make_member();
+        double subtract = _prizes->prizeSum(c_id);
+        customer->setMonthlyExpanses(customer->monthlyExpanses()-subtract);
+        //////////WE MUST MAKE SURE THE EXTRA PAREMETER IS 0 FOR THIS INSERETD DUDE!!
+        customer->make_member();
+//        int i = 0;
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     }
@@ -105,8 +105,8 @@ Output_t<bool> RecordsCompany::isMember(int c_id) {
     }
 
     try {
-        Customer &customer = _customers.find(c_id);
-        return customer.member();
+        Customer * customer = _customers.find(c_id);
+        return customer->member();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     }
@@ -119,8 +119,8 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
 
     try {
         Record record = _records->ReturnObject(r_id);
-        Customer customer = _customers.find(c_id);
-        customer.buy(&record);
+        Customer * customer = _customers.find(c_id);
+        customer->buy(&record);
         record.buy();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
@@ -147,10 +147,10 @@ Output_t<double> RecordsCompany::getExpenses(int c_id) {
     }
 
     try {
-        Customer &customer = _customers.find(c_id);
-        if (!customer.member())
+        Customer *customer = _customers.find(c_id);
+        if (!customer->member())
             return StatusType::DOESNT_EXISTS;
-        return customer.monthlyExpanses() + _prizes->prizeSum(c_id);
+        return customer->monthlyExpanses() - _prizes->prizeSum(c_id);
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     }

@@ -49,7 +49,8 @@ int main()
     {
       int c_id;
       cin >> c_id;
-
+//        if (c_id == 206)
+//            int i = 0;
       print(op, test_obj->makeMember(c_id));
     }
     else if(!op.compare("isMember"))
@@ -63,7 +64,8 @@ int main()
     {
       int c_id, r_id;
       cin >> c_id; cin >> r_id;
-
+//        if (c_id == 206 || r_id == 5)
+//            int i = 0;
       print(op, test_obj->buyRecord(c_id, r_id));
     }
     else if(!op.compare("addPrize"))
@@ -79,6 +81,8 @@ int main()
     {
       int c_id;
       cin >> c_id;
+//      if (c_id == 206)
+//          int i = 0;
 
       print(op, test_obj->getExpenses(c_id));
     }
@@ -86,15 +90,14 @@ int main()
     {
       int r_id1, r_id2;
       cin >> r_id1; cin >> r_id2;
-
       print(op, test_obj->putOnTop(r_id1, r_id2));
     }
     else if(!op.compare("getPlace"))
     {
       int r_id, column, hight;
       cin >> r_id;
-      if (r_id == 19)
-          int i = 0;
+//      if (r_id == 19)
+//          int i = 0;
       StatusType res = test_obj->getPlace(r_id, &column, &hight);
       if (res != StatusType::SUCCESS)
       {

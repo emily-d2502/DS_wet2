@@ -18,7 +18,8 @@ public:
     void buy(Record* record);
     static void zeroMonthlyPayments(Customer& c);
     void zeroExpanses();
-    double monthlyExpanses() ;
+    double monthlyExpanses();
+    void setMonthlyExpanses(double num);
 
 
 

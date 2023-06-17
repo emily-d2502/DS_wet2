@@ -150,25 +150,26 @@ void Tree<K>::add(K key, double extra) {
                 p->_right->_extra -= extra;
             return;
         } else if (p->_key < key) {
+            NODE * father = p;
             p = p->_right;
-            if (p->_father == this->_root)
+            if (father == this->_root || p == nullptr)
             {
-                p->_father->_extra+=extra;
+                father->_extra+=extra;
                 continue;
             }
-            else if  (&(p->_father) == &(p->_father->_father->_left))
-                p->_father->_extra+=extra;
+            else if  (&(father) == &(father->_father->_left))
+                father->_extra+=extra;
         } else {
+            NODE * father = p;
             p = p->_left;
-            if (p->_father == this->_root)
+            if (father == this->_root)
             {
                 continue;
             }
-            if (&(p->_father) == &(p->_father->_father->_right))
+            if (&(father) == &(father->_father->_right))
                 p->_father->_extra-=extra;
         }
     }
-    throw KeyNotFound();
 }
 ///
 

@@ -47,6 +47,11 @@ double Customer::monthlyExpanses() {
     return _monthlyPayments;
 }
 
+void Customer::setMonthlyExpanses(double num){
+    _monthlyPayments = num;
+}
+
+
 
 
 void Customer::buy(Record* record) {

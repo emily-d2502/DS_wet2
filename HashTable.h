@@ -11,7 +11,7 @@ class HashTable {
 public:
     HashTable(int buckets = 2);
     ~HashTable();
-    T& find(int key);
+    T* find(int key);
     void remove(int key);
     void insert(int key, T *data);
     void removeMonthlyDebts();
@@ -89,7 +89,7 @@ void HashTable<T>::remove(int key) {
 }
 
 template<typename T>
-T& HashTable<T>::find(int key) {
+T* HashTable<T>::find(int key) {
     int index = hash_function(key);
     try {
         return _table[index].find(key);

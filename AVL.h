@@ -17,7 +17,7 @@ public:
 
     int size() const;
     T* max() const;
-    T& find(const K& key);
+    T* find(const K& key);
     void insert(const K& key, T *data);
     void remove(const K& key);
     void inorder(K* const output) const;
@@ -82,7 +82,7 @@ int AVL<T,K>::size() const {
 }
 
 template<typename T, typename K>
-T& AVL<T,K>::find(const K& key) {
+T* AVL<T,K>::find(const K& key) {
     if (_root == nullptr) {
         throw KeyNotFound();
     }
@@ -90,7 +90,7 @@ T& AVL<T,K>::find(const K& key) {
     NODEAVL *p = _root;
     while(p != nullptr) {
         if (p->_key == key) {
-            return *p->_data;
+            return p->_data;
         } else if (p->_key < key) {
             p = p->_right;
         } else {
