@@ -27,13 +27,20 @@ public:
     Set MakeSet(int member,T* object);
     Set Find(int member);
     Set Union(Set p, Set q);
-
+    int size() const;
 private:
     int *_fullHeight;
     int *_size;
     int *_parent;
     Array<T> _objects;
+
+    int _max_size;
 };
+
+template<class T>
+int UnionFind<T>::size() const {
+    return _max_size;
+}
 
 template<class T>
 UnionFind<T>::UnionFind(int n) : _objects(Array<T>(n)) {
@@ -44,6 +51,7 @@ UnionFind<T>::UnionFind(int n) : _objects(Array<T>(n)) {
         _size[i] = EMPTY;
         _parent[i] = EMPTY;
     }
+    _max_size = n;
 }
 
 template<class T>

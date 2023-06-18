@@ -189,6 +189,9 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2) {
     if (r_id1 < 0 || r_id2 < 0) {
         return StatusType::INVALID_INPUT;
     }
+    if (r_id1 >= _records->size() || r_id2 >= _records->size()) {
+        return StatusType::DOESNT_EXISTS;
+    }
 
     try {
         int B = _records->Find(r_id1);
