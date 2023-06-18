@@ -73,5 +73,5 @@ void Record::zeroBuys() {
 
 
 void Record::buy() {
-    _buys++;
+    _buys = _buys + 1;
 }

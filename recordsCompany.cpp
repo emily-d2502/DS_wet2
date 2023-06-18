@@ -117,16 +117,16 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
     }
 
     try {
-        Record record = _records->ReturnObject(r_id);
+        Record * record = _records->ReturnObject(r_id);
         Customer * customer = _customers.find(c_id);
-        customer->buy(&record);
-        record.buy();
+        customer->buy(record);
+        record->buy();
+//        int i = 0;
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     } catch (const Array<Record>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
     }
-
     return StatusType::SUCCESS;
 }
 
@@ -137,13 +137,35 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double  amount) {
     try {
         _prizes->insert(c_id2-1);
     } catch (const Tree<int>::KeyExists& e){}
-
+    try {
+        _prizes->insert(c_id2);
+    } catch (const Tree<int>::KeyExists& e){}
     try {
         _prizes->insert(c_id1-1);;
+    } catch (const Tree<int>::KeyExists& e){}
+    try {
+        _prizes->insert(c_id1);;
     } catch (const Tree<int>::KeyExists& e){}
 
     _prizes->add(c_id2-1,amount);
     _prizes->add(c_id1-1,-amount);
+//
+//    try {
+//        _prizes->remove(c_id2-1);
+//    } catch (const Tree<int>::KeyNotFound& e){}
+//
+//    try {
+//        _prizes->remove(c_id2);
+//    } catch (const Tree<int>::KeyNotFound& e){}
+//
+//    try {
+//        _prizes->remove(c_id1-1);
+//    } catch (const Tree<int>::KeyNotFound& e){}
+//
+//    try {
+//        _prizes->remove(c_id2);
+//    } catch (const Tree<int>::KeyNotFound& e){}
+
 
     return StatusType::SUCCESS;
 }
@@ -186,12 +208,12 @@ StatusType RecordsCompany::getPlace(int r_id, int *column, int *hight) {
     }
 
     try {
-        Record tmp = _records->ReturnObject(r_id);
-        *hight = _records->SumHeight(r_id) - tmp.copies();
+        Record * tmp = _records->ReturnObject(r_id);
+        *hight = _records->SumHeight(r_id) - tmp->copies();
 
         int headStack = _records->Find(r_id);
-        Record tmp2 = _records->ReturnObject(headStack);
-        *column = tmp2.getColumn();
+        Record * tmp2 = _records->ReturnObject(headStack);
+        *column = tmp2->getColumn();
     } catch (const Array<Record>::OutOfRange& e) {
         return StatusType::DOESNT_EXISTS;
     }

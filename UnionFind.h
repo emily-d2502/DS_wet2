@@ -15,7 +15,7 @@ public:
 //
     int SumHeight(int id);
 
-    T& ReturnObject(int id);
+    T* ReturnObject(int id);
 
     int stackBonA(int A,int B);
 
@@ -111,8 +111,8 @@ int UnionFind<T>::SumHeight(int id) {
 }
 
 template<typename T>
-T& UnionFind<T>::ReturnObject(int id){
-    return _objects[id];
+T* UnionFind<T>::ReturnObject(int id){
+    return &_objects[id];
 }
 
 template<typename T>
