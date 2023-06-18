@@ -63,7 +63,7 @@ Set UnionFind<T>::MakeSet(int member, T* object) {
 
 template<class T>
 Set UnionFind<T>::Find(int member) {
-    int sumHeights = (_objects[member]).getHeight();
+    int sumHeights = 0;
     int root = member;
     while (_parent[root] != EMPTY) {
         sumHeights += _objects[root].getHeight();

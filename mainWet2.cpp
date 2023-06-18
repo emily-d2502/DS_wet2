@@ -17,7 +17,8 @@ vector<int> getRecordsStocks();
 
 int main()
 {
-  string op;
+    int counter = 0;
+    string op;
   RecordsCompany *test_obj = new RecordsCompany();
   while (cin >> op)
   {
@@ -96,8 +97,11 @@ int main()
     {
       int r_id, column, hight;
       cin >> r_id;
-//      if (r_id == 19)
-//          int i = 0;
+      if (r_id == 9)
+          counter++;
+      if (counter == 3)
+          counter = 100;
+
       StatusType res = test_obj->getPlace(r_id, &column, &hight);
       if (res != StatusType::SUCCESS)
       {

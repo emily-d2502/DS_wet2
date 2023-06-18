@@ -130,7 +130,6 @@ int NodeTree<K>::height(NodeTree *v) {
 
 template<typename K>
 void NodeTree<K>::rr_rotation(NodeTree *v) {
-    std::cerr<< "rr";
     NodeTree *u = v->_right;
 
     double oldUExtra = u->_extra;
@@ -167,7 +166,6 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
 
 template<typename K>
 void NodeTree<K>::ll_rotation(NodeTree *v) {
-    std::cerr<< "ll";
     NodeTree *u = v->_left;
 
     double oldUExtra = u->_extra;
