@@ -104,8 +104,8 @@ void HashTable<T>::resize(int buckets) {
         for (int j = 0; j < _table[i].size(); ++j) {
             table[keys[j] % buckets].insert(keys[j], data[j]);
         }
-        delete data;
-        delete keys;
+        delete[] data;
+        delete[] keys;
     }
     for (int i = 0; i < _buckets; ++i) {
         _table[i].memory() = false;
