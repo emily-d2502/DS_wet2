@@ -60,7 +60,6 @@ Tree<K>& Tree<K>::operator=(Tree<K>& other) {
     delete_tree(_root);
     _size = other._size;
     _root = other._root;
-    _memory = other._memory;
 
     other._size = 0;
     other._root = nullptr;

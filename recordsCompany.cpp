@@ -26,7 +26,7 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) 
     try {
         SAFE_DELETE(_prizes);
         SAFE_DELETE(_records);
-        _prizes = new Tree<int>(true);
+        _prizes = new Tree<int>;
         _records = new UnionFind<Record>(number_of_records);
         for (int i = 0; i < number_of_records; ++i) {
             Record* tmp = new Record(i);
