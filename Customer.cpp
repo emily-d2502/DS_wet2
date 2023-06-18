@@ -23,18 +23,6 @@ void Customer::make_member(){
     _member = true;
 }
 
-
-
-//bool Customer::listen(Record* record) {
-////    if (group.size() == 0 || (vip() && !group.vip())) {
-////        return false;
-////    }
-////    group.watch(_genre);
-////    _views += group.size();
-////    return true;
-//}
-
-
  void Customer::zeroMonthlyPayments(Customer& c) {
     c.zeroExpanses();
 }
@@ -51,12 +39,8 @@ void Customer::setMonthlyExpanses(double num){
     _monthlyPayments = num;
 }
 
-
-
-
 void Customer::buy(Record* record) {
-    if (this->member())
-    {
+    if (this->member()) {
         this->_monthlyPayments += 100 + record->buys();
     }
 }

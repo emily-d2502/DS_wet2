@@ -1,16 +1,21 @@
 #include "recordsCompany.h"
 
+#define SAFE_DELETE(ptr)                \
+do {                                    \
+    if (ptr) {                          \
+        delete ptr;                     \
+        ptr = nullptr;                  \
+    }                                   \
+} while (0)
 
-RecordsCompany::RecordsCompany() :
-        _records(nullptr),
-        _customers(),
-        _prizes(nullptr)
-{}
-
-
+RecordsCompany::RecordsCompany():
+    _customers(),
+    _records(nullptr),
+    _prizes(nullptr) {}
 
 RecordsCompany::~RecordsCompany() {
-
+    SAFE_DELETE(_prizes);
+    SAFE_DELETE(_records);
 }
 
 StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) {
@@ -19,32 +24,20 @@ StatusType RecordsCompany::newMonth(int *records_stocks, int number_of_records) 
     }
 
     try {
-        if(_records)
-        {
-            delete _records;
-        }
+        SAFE_DELETE(_prizes);
+        SAFE_DELETE(_records);
+        _prizes = new Tree<int>(true);
         _records = new UnionFind<Record>(number_of_records);
-        for (int i = 0; i<number_of_records; i++)
-        {
+        for (int i = 0; i < number_of_records; ++i) {
             Record* tmp = new Record(i);
             tmp->setCopies(records_stocks[i]);
             tmp->setHeight(records_stocks[i]);
             _records->MakeSet(i, tmp);
         }
-
-
+        _customers.apply(Customer::zeroMonthlyPayments);
     } catch (const std::exception& e) {
         return StatusType::ALLOCATION_ERROR;
     }
-
-    _customers.apply(Customer::zeroMonthlyPayments);
-
-    if(_prizes)
-    {
-        delete _prizes;
-    }
-    _prizes = new Tree<int>;
-
     return StatusType::SUCCESS;
 }
 
@@ -70,7 +63,7 @@ Output_t<int> RecordsCompany::getPhone(int c_id) {
     }
 
     try {
-        Customer * customer = _customers.find(c_id);
+        Customer *customer = _customers.find(c_id);
         return customer->phone();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
@@ -83,15 +76,13 @@ StatusType RecordsCompany::makeMember(int c_id) {
     }
 
     try {
-        Customer * customer = _customers.find(c_id);
+        Customer *customer = _customers.find(c_id);
         if (customer->member()) {
             return StatusType::ALREADY_EXISTS;
         }
-//        _prizes->insert(c_id);
         double debt = _prizes->prizeSum(c_id);
-        customer->setMonthlyExpanses(customer->monthlyExpanses()+debt);
+        customer->setMonthlyExpanses(customer->monthlyExpanses() + debt);
         customer->make_member();
-//        int i = 0;
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     }
@@ -104,7 +95,7 @@ Output_t<bool> RecordsCompany::isMember(int c_id) {
     }
 
     try {
-        Customer * customer = _customers.find(c_id);
+        Customer *customer = _customers.find(c_id);
         return customer->member();
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
@@ -117,11 +108,10 @@ StatusType RecordsCompany::buyRecord(int c_id, int r_id) {
     }
 
     try {
-        Record * record = _records->ReturnObject(r_id);
-        Customer * customer = _customers.find(c_id);
+        Record *record = _records->ReturnObject(r_id);
+        Customer *customer = _customers.find(c_id);
         customer->buy(record);
         record->buy();
-//        int i = 0;
     } catch (const HashTable<Customer>::KeyNotFound& e) {
         return StatusType::DOESNT_EXISTS;
     } catch (const Array<Record>::OutOfRange& e) {
@@ -135,38 +125,20 @@ StatusType RecordsCompany::addPrize(int c_id1, int c_id2, double  amount) {
         return StatusType::INVALID_INPUT;
     }
     try {
-        _prizes->insert(c_id2-1);
-    } catch (const Tree<int>::KeyExists& e){}
+        _prizes->insert(c_id2 - 1);
+    } catch (const Tree<int>::KeyExists& e) {}
     try {
         _prizes->insert(c_id2);
-    } catch (const Tree<int>::KeyExists& e){}
+    } catch (const Tree<int>::KeyExists& e) {}
     try {
-        _prizes->insert(c_id1-1);;
-    } catch (const Tree<int>::KeyExists& e){}
+        _prizes->insert(c_id1 - 1);
+    } catch (const Tree<int>::KeyExists& e) {}
     try {
-        _prizes->insert(c_id1);;
-    } catch (const Tree<int>::KeyExists& e){}
+        _prizes->insert(c_id1);
+    } catch (const Tree<int>::KeyExists& e) {}
 
-    _prizes->add(c_id2-1,amount);
-    _prizes->add(c_id1-1,-amount);
-//
-//    try {
-//        _prizes->remove(c_id2-1);
-//    } catch (const Tree<int>::KeyNotFound& e){}
-//
-//    try {
-//        _prizes->remove(c_id2);
-//    } catch (const Tree<int>::KeyNotFound& e){}
-//
-//    try {
-//        _prizes->remove(c_id1-1);
-//    } catch (const Tree<int>::KeyNotFound& e){}
-//
-//    try {
-//        _prizes->remove(c_id2);
-//    } catch (const Tree<int>::KeyNotFound& e){}
-
-
+    _prizes->add(c_id2 - 1,amount);
+    _prizes->add(c_id1 - 1,- amount);
     return StatusType::SUCCESS;
 }
 
@@ -193,15 +165,12 @@ StatusType RecordsCompany::putOnTop(int r_id1, int r_id2) {
         return StatusType::DOESNT_EXISTS;
     }
 
-    try {
-        int B = _records->Find(r_id1);
-        int A = _records->Find(r_id2);
-        if (A == B)
-            return StatusType::FAILURE;
-        _records->stackBonA(A,B);
-    } catch (const Array<Record>::OutOfRange& e) {
-        return StatusType::DOESNT_EXISTS;
+    int B = _records->Find(r_id1);
+    int A = _records->Find(r_id2);
+    if (A == B) {
+        return StatusType::FAILURE;
     }
+    _records->stackBonA(A,B);
     return StatusType::SUCCESS;
 }
 

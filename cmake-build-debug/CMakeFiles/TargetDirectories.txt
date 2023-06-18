@@ -1,3 +1,0 @@
-/Users/adi/Technion/mivne netunim/DataStructures-spring2023-Wet2Test/cmake-build-debug/CMakeFiles/DataStructures_spring2023_Wet2Test.dir
-/Users/adi/Technion/mivne netunim/DataStructures-spring2023-Wet2Test/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/adi/Technion/mivne netunim/DataStructures-spring2023-Wet2Test/cmake-build-debug/CMakeFiles/rebuild_cache.dir

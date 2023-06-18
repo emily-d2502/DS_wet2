@@ -1,0 +1,2 @@
+https://github.com/emily-d2502/DS_wet2.git
+https://github.com/ShaiKl/DataStructures-spring2023-Wet2Test.git

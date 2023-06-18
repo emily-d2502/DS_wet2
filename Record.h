@@ -1,9 +1,6 @@
 #ifndef RECORD_H
 #define RECORD_H
 
-
-#include "NodeUF.h"
-
 class Record {
 public:
     explicit Record(int r_id);
@@ -28,10 +25,7 @@ public:
 
     int getHeight() const;
 
-    NodeUF<Record>* UF_Node() const;
 
-    void setNode(NodeUF<Record>* UFnode);
-//    bool listen(Record* record);
     void buy();
     void zeroBuys();
 
@@ -42,7 +36,6 @@ private:
     int _buys;
     int _stackHeight;
     int _column;
-    NodeUF<Record>* UF_node;
 };
 
 #endif

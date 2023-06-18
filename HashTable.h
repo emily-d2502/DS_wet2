@@ -2,9 +2,8 @@
 #define HASH_TABLE_H
 
 #include "AVL.h"
-#include "Customer.h"
 
-#define CONTAINER AVL<Customer,int>
+#define CONTAINER AVL<T,int>
 
 template<typename T>
 class HashTable {
@@ -14,10 +13,10 @@ public:
     T* find(int key);
     void remove(int key);
     void insert(int key, T *data);
-    void removeMonthlyDebts();
 
     template<typename Function>
     void apply(Function func);
+
     class KeyExists {};
     class KeyNotFound {};
 private:
@@ -36,7 +35,10 @@ template<typename T>
 HashTable<T>::HashTable(int buckets) {
     _size = 0;
     _buckets = buckets;
-    _table = new CONTAINER[_buckets];
+    _table = new CONTAINER[buckets];
+    for (int i = 0; i < buckets; ++i) {
+        _table[i].memory() = true;
+    }
 }
 
 template<typename T>
@@ -45,18 +47,6 @@ HashTable<T>::~HashTable() {
         delete[] _table;
     }
 }
-
-template<typename T>
-void HashTable<T>::removeMonthlyDebts(){
-    T ** tmp = new T*[_size];
-    _table->inorder(tmp);
-    for (int i = 0; i<_size; i++){
-        tmp[i]->inorder();
-        //maybe another level for inside the trees?
-    }
-}
-
-
 
 template<typename T>
 void HashTable<T>::insert(int key, T *data) {
@@ -103,6 +93,9 @@ void HashTable<T>::resize(int buckets) {
     T **data;
     int *keys;
     CONTAINER *table = new CONTAINER[buckets];
+    for (int i = 0; i < buckets; ++i) {
+        table[i].memory() = true;
+    }
     for (int i = 0; i < _buckets; ++i) {
         data = new T*[_table[i].size()];
         keys = new int[_table[i].size()];
@@ -113,6 +106,9 @@ void HashTable<T>::resize(int buckets) {
         }
         delete data;
         delete keys;
+    }
+    for (int i = 0; i < _buckets; ++i) {
+        _table[i].memory() = false;
     }
     delete[] _table;
     _table = table;

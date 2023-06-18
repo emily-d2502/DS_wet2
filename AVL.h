@@ -15,6 +15,7 @@ public:
     AVL& operator=(AVL& other);
     ~AVL();
 
+    bool &memory();
     int size() const;
     T* max() const;
     T* find(const K& key);
@@ -42,7 +43,7 @@ private:
     NODEAVL *remove(NODEAVL *root, const K& key);
     void inorder(NODEAVL *p, Array<K>& arr) const;
     void inorder(NODEAVL *p, Array<T*>& arr) const;
-    void delete_tree(NODEAVL *root);
+    void delete_tree(NODEAVL *root, bool memory);
     void print(const std::string& prefix, NODEAVL *root, bool left) const;
 
     template<typename Function>
@@ -73,12 +74,17 @@ AVL<T,K>& AVL<T,K>::operator=(AVL<T,K>& other) {
 
 template<typename T, typename K>
 AVL<T,K>::~AVL() {
-    delete_tree(_root);
+    delete_tree(_root, _memory);
 }
 
 template<typename T, typename K>
 int AVL<T,K>::size() const {
     return _size;
+}
+
+template<typename T, typename K>
+bool &AVL<T,K>::memory() {
+    return _memory;
 }
 
 template<typename T, typename K>
@@ -245,12 +251,13 @@ T* AVL<T,K>::max() const {
 }
 
 template<typename T, typename K>
-void AVL<T,K>::delete_tree(NODEAVL *root) {
+void AVL<T,K>::delete_tree(NODEAVL *root, bool memory) {
     if (!root) {
         return;
     }
-    delete_tree(root->_left);
-    delete_tree(root->_right);
+    delete_tree(root->_left, memory);
+    delete_tree(root->_right, memory);
+    root->_memory = memory;
     delete root;
 }
 
