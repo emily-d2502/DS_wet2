@@ -1,6 +1,6 @@
 
-#ifndef Tree_H
-#define Tree_H
+#ifndef TREE_H
+#define TREE_H
 
 #include <iostream>
 #include "NodeTree.h"
@@ -10,23 +10,19 @@
 template<typename K>
 class Tree {
 public:
-    Tree(bool memory = false);
+    Tree();
     Tree(const Tree& other) = delete;
     Tree& operator=(Tree& other);
     ~Tree();
 
     int size() const;
-    NODE * find(const K& key);
-
-    double prizeSum(const K& key);
-
     void insert(const K& key);
-    ///
-    void add(K key, double extra);
-    ///
     void remove(const K& key);
     void print() const;
-    void emptyTree();
+
+    double prizeSum(const K& key);
+    NODE *find(const K& key);
+    void add(K key, double extra);
 
     template<typename Function>
     void apply(Function func);
@@ -37,7 +33,6 @@ public:
 private:
     int _size;
     NODE *_root;
-    bool _memory;
 
     void rotations(NODE *v);
     NODE *closest_up(NODE *v);
@@ -46,17 +41,15 @@ private:
     NODE *remove(NODE *root, const K& key);
 
     void delete_tree(NODE *root);
-    void print(const std::string& prefix, NODE *root, bool left) const;
 
     template<typename Function>
     void apply(NODE *root, Function func);
 };
 
 template<typename K>
-Tree<K>::Tree(bool memory):
+Tree<K>::Tree():
     _size(0),
-    _root(nullptr),
-    _memory(memory) {}
+    _root(nullptr) {}
 
 template<typename K>
 Tree<K>& Tree<K>::operator=(Tree<K>& other) {
@@ -175,7 +168,6 @@ void Tree<K>::add(K key, double extra) {
         }
     }
 }
-///
 
 template<typename K>
 void Tree<K>::remove(const K& key) {
@@ -189,14 +181,10 @@ NODE *Tree<K>::insert(NODE *root, NODE *v) {
         return v;
     }
     if (v->_key > root->_key) {
-        /////
         v->_father = root;
-        /////
         root->_right = insert(root->_right, v);
     } else if (v->_key < root->_key) {
-        ///
         v->_father = root;
-        ///
         root->_left = insert(root->_left, v);
     } else {
         throw KeyExists();
@@ -222,9 +210,7 @@ NODE *Tree<K>::remove(NODE *root, const K& key) {
         }
         if (root->children() == 1) {
             NODE *tmp = root->only_child();
-            ///
             tmp->_father = root->_father;
-            ///
             delete root;
             return tmp;
         }
@@ -304,30 +290,4 @@ void Tree<K>::apply(NODE *root, Function func) {
     apply(root->_right, func);
 }
 
-template<typename K>
-void Tree<K>::print(const std::string& prefix, NODE *root, bool left) const {
-    if (!root) {
-        return;
-    }
-    std::cout << prefix << (left ? "├──" : "└──" );
-    std::cout << "(" << root->_key << ", " << *root->_data << ")" << std::endl;
-
-    print(prefix + (left ? "│   " : "    "), root->_left, true);
-    print(prefix + (left ? "│   " : "    "), root->_right, false);
-}
-
-template<typename K>
-void Tree<K>::print() const {
-    print("", _root, false);
-}
-
-//
-//template<typename K>
-//void Tree<K>::emptyTree() {
-//    while (_root){
-//        this->
-//    }
-//}
-
-
-#endif // Tree_H
+#endif // TREE_H

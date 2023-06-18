@@ -1,5 +1,6 @@
+#ifndef NODE_TREE_H
+#define NODE_TREE_H
 
-#pragma once
 #include <assert.h>
 #define MAX(n,m)      \
 ((n) > (m) ? (n) : (m))
@@ -21,16 +22,12 @@ private:
     GENERIC_FRIEND_CLASS(Tree);
 
     K _key;
-//    T* _data;
+    double _extra;
     NodeTree *_left;
     NodeTree *_right;
-    ///
     NodeTree *_father;
-    double _extra;
-    ///
 
     int _height;
-    bool _memory;
     bool leaf();
     int children();
     NodeTree *only_child();
@@ -46,21 +43,15 @@ private:
 template<typename K>
 NodeTree<K>::NodeTree(const K& key, bool memory):
     _key(key),
-//    _data(data),
+    _extra(0),
     _left(nullptr),
     _right(nullptr),
-        //
     _father(nullptr),
-    _extra(0),
-        //
-    _height(0),
-    _memory(memory) {}
+    _height(0) {}
 
 template<typename K>
 NodeTree<K>::~NodeTree() {
-    if (_memory) {
-//        delete _data;
-    }
+
 }
 
 template<typename K>
@@ -133,7 +124,6 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
     NodeTree *u = v->_right;
 
     double oldUExtra = u->_extra;
-    ///
     if (v->_left){
         v->_left->_father= u;
     }
@@ -141,7 +131,6 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
     if (u->_right){
         u->_right->_father= v;
     }
-    //
 
     swap(u,v);
 
@@ -150,14 +139,11 @@ void NodeTree<K>::rr_rotation(NodeTree *v) {
     u->_left = v->_left;
     v->_left = u;
 
-    //
     v->_extra += u->_extra;
     u->_extra = -oldUExtra;
     if (u->_right){
         u->_right->_extra += oldUExtra;
     }
-    //
-
 
     u->_height = height(u);
     v->_height = height(v);
@@ -169,17 +155,12 @@ void NodeTree<K>::ll_rotation(NodeTree *v) {
     NodeTree *u = v->_left;
 
     double oldUExtra = u->_extra;
-
-
-    ///
     if (u->_left){
         u->_left->_father= v;
     }
     if (v->_right){
         v->_right->_father= u;
     }
-    //
-
 
     swap(u,v);
 
@@ -188,13 +169,11 @@ void NodeTree<K>::ll_rotation(NodeTree *v) {
     u->_right = v->_right;
     v->_right = u;
 
-    //
     v->_extra += u->_extra;
     u->_extra = -oldUExtra;
     if (u->_left){
         u->_left->_extra += oldUExtra;
     }
-    //
 
     u->_height = height(u);
     v->_height = height(v);
@@ -214,3 +193,4 @@ void NodeTree<K>::rl_rotation(NodeTree *v) {
     v->_height = height(v);
 }
 
+#endif // NODE_TREE_H
