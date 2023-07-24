@@ -11,7 +11,7 @@ do {                                    \
 RecordsCompany::RecordsCompany():
     _customers(),
     _records(nullptr),
-    _prizes(nullptr) {}
+    _prizes(new Tree<int>) {}
 
 RecordsCompany::~RecordsCompany() {
     SAFE_DELETE(_prizes);
